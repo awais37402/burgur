@@ -6,7 +6,7 @@
 }
 
 :root {
-  --primary: #fcb900;
+  --primary:  #2563eb;
   --secondary: #ff6b6b;
   --dark: #121212;
   --light: #ffffff;
@@ -15,13 +15,7 @@
   --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-body {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-color: var(--dark);
-  color: var(--light);
-  overflow-x: hidden;
-  line-height: 1.6;
-}
+
 
 /* Hero Section - Main Content Area */
 .hero {
@@ -38,71 +32,43 @@ body {
 }
 
 /* Background Effects - Now contained within hero */
-.bg-gradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #f12711 0%, #f5af19 100%);
-  z-index: -3;
-}
 
-.bg-pattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(255,255,255,0.1) 0%, transparent 20%),
-    radial-gradient(circle at 90% 80%, rgba(255,255,255,0.1) 0%, transparent 20%);
-  z-index: -2;
-  opacity: 0.4;
-}
 
-.bg-texture {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');
-  opacity: 0.1;
-  z-index: -1;
-}
+
 
 /* Navigation - Sticky & Centered */
 .nav-links {
   display: inline-flex;
-  gap: 1.5rem;
+  gap: 1.8rem;
   list-style: none;
   align-items: center;
-  background: rgba(31, 31, 31, 0.8);
+  background: #ffffff;
   padding: 0.8rem 2rem;
   border-radius: 40px;
   backdrop-filter: blur(5px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: var(--transition);
 }
 
 .nav-links li {
   font-weight: 600;
   cursor: pointer;
-  transition: var(--transition);
   font-size: 0.95rem;
   position: relative;
+  color: var(--primary);
+  transition: var(--transition);
 }
 
 .nav-links li:hover {
-  color: var(--primary);
+  color: #1e40af; /* darker blue on hover */
 }
 
 .nav-links li::after {
   content: '';
   position: absolute;
-  bottom: -5px;
+  bottom: -6px;
   left: 0;
-  width: 0;
+  width: 0%;
   height: 2px;
   background: var(--primary);
   transition: var(--transition);
@@ -111,7 +77,6 @@ body {
 .nav-links li:hover::after {
   width: 100%;
 }
-
 .nav-logo {
   width: 40px;
   height: 40px;
