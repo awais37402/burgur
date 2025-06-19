@@ -21,7 +21,7 @@ function Hero() {
   };
 
   return (
-    <div className="hero-container">
+    <>
       {/* Hero Section */}
       <section className="hero">
         {/* Background Layers */}
@@ -110,7 +110,7 @@ function Hero() {
 
       {/* Special Burger Section */}
       <SpecialBurger />
-    </div>
+    </>
   );
 }
 
