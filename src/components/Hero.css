@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  user-select: none; /* Added to prevent text selection globally */
 }
 
 :root {
@@ -81,7 +82,6 @@ body {
 }
 
 /* Navigation - Sticky & Centered */
-
 .nav-links {
   display: inline-flex;
   gap: 1.5rem;
@@ -100,6 +100,7 @@ body {
   transition: var(--transition);
   font-size: 0.95rem;
   position: relative;
+  user-select: none; /* Added to prevent text selection */
 }
 
 .nav-links li:hover {
@@ -126,6 +127,7 @@ body {
   height: 40px;
   transition: var(--transition);
   filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+  user-select: none; /* Added to prevent selection */
 }
 
 .nav-logo:hover {
@@ -144,6 +146,7 @@ body {
   white-space: nowrap;
   pointer-events: none;
   opacity: 0.1;
+  user-select: none; /* Added to prevent selection */
 }
 
 .hashtag-track {
@@ -162,6 +165,7 @@ body {
   letter-spacing: 2px;
   word-spacing: 2rem;
   opacity: 0.8;
+  user-select: none; /* Added to prevent selection */
 }
 
 @keyframes scroll {
@@ -180,6 +184,7 @@ body {
   align-items: center;
   justify-content: center;
   perspective: 1000px;
+  user-select: none; /* Added to prevent selection */
 }
 
 .main-burger {
@@ -191,6 +196,8 @@ body {
   transition: var(--transition);
   transform-style: preserve-3d;
   animation: floatBurger 6s ease-in-out infinite;
+  user-select: none; /* Added to prevent selection */
+  -webkit-user-drag: none; /* Added to prevent dragging */
 }
 
 @keyframes floatBurger {
@@ -224,6 +231,7 @@ body {
   box-shadow: var(--shadow);
   animation: pulse 2s infinite, bounce 3s infinite;
   transform-origin: center;
+  user-select: none; /* Added to prevent selection */
 }
 
 @keyframes bounce {
@@ -237,6 +245,7 @@ body {
   position: absolute;
   z-index: 4;
   animation: float 8s ease-in-out infinite;
+  user-select: none; /* Added to prevent selection */
 }
 
 .floating img {
@@ -244,6 +253,8 @@ body {
   filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
   opacity: 0.9;
   transition: var(--transition);
+  user-select: none; /* Added to prevent selection */
+  -webkit-user-drag: none; /* Added to prevent dragging */
 }
 
 .floating:hover img {
@@ -290,6 +301,7 @@ body {
   z-index: 5;
   box-shadow: 0 5px 25px rgba(252, 185, 0, 0.4);
   overflow: hidden;
+  user-select: none; /* Added to prevent selection */
 }
 
 .order-btn::before {
@@ -326,6 +338,7 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
   scroll-behavior: smooth;
+  user-select: none; /* Added to prevent selection */
 }
 
 .burger-thumbnails::-webkit-scrollbar {
@@ -344,6 +357,8 @@ body {
   transition: var(--transition);
   border: 2px solid transparent;
   backdrop-filter: blur(2px);
+  user-select: none; /* Added to prevent selection */
+  -webkit-user-drag: none; /* Added to prevent dragging */
 }
 
 .burger-thumbnails img:hover {
@@ -445,6 +460,7 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  user-select: none; /* Added to prevent selection */
 }
 
 .favorite-btn.active {
@@ -492,6 +508,8 @@ body {
   transition: var(--transition);
   padding: 2rem;
   transform-origin: center;
+  user-select: none; /* Added to prevent selection */
+  -webkit-user-drag: none; /* Added to prevent dragging */
 }
 
 .burger-image:hover {
@@ -510,6 +528,7 @@ body {
   font-size: 0.9rem;
   animation: pulse 2s infinite;
   z-index: 2;
+  user-select: none; /* Added to prevent selection */
 }
 
 .burger-details {
@@ -522,6 +541,7 @@ body {
   color: var(--gray);
   line-height: 1.7;
   font-size: 1rem;
+  user-select: text; /* Allowing text selection for description */
 }
 
 /* Nutrition Info - Grid Layout */
@@ -604,6 +624,7 @@ body {
   font-size: 0.9rem;
   font-weight: bold;
   animation: pulse 2s infinite;
+  user-select: none; /* Added to prevent selection */
 }
 
 /* Action Buttons - Quantity & Add to Cart */
@@ -621,6 +642,7 @@ body {
   border-radius: 50px;
   overflow: hidden;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  user-select: none; /* Added to prevent selection */
 }
 
 .quantity-selector button {
@@ -634,6 +656,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none; /* Added to prevent selection */
 }
 
 .quantity-selector button:hover {
@@ -674,6 +697,7 @@ body {
   justify-content: center;
   gap: 0.5rem;
   box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+  user-select: none; /* Added to prevent selection */
 }
 
 .add-to-cart-btn:hover {
@@ -703,6 +727,7 @@ body {
   color: #666;
   font-weight: 600;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  user-select: none; /* Added to prevent selection */
 }
 
 /* Responsive Design - Mobile First Approach */
