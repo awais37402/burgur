@@ -3,7 +3,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  user-select: none; /* Added to prevent text selection globally */
 }
 
 :root {
@@ -24,15 +23,6 @@ body {
   line-height: 1.6;
 }
 
-/* Hero Container - Full Viewport Layout */
-.hero-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-}
-
 /* Hero Section - Main Content Area */
 .hero {
   position: relative;
@@ -44,11 +34,12 @@ body {
   justify-content: space-between;
   align-items: center;
   z-index: 1;
+  overflow: hidden;
 }
 
-/* Background Effects - Gradient, Pattern & Texture */
+/* Background Effects - Now contained within hero */
 .bg-gradient {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -58,7 +49,7 @@ body {
 }
 
 .bg-pattern {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -71,7 +62,7 @@ body {
 }
 
 .bg-texture {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -100,7 +91,6 @@ body {
   transition: var(--transition);
   font-size: 0.95rem;
   position: relative;
-  user-select: none; /* Added to prevent text selection */
 }
 
 .nav-links li:hover {
@@ -127,7 +117,6 @@ body {
   height: 40px;
   transition: var(--transition);
   filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
-  user-select: none; /* Added to prevent selection */
 }
 
 .nav-logo:hover {
@@ -146,7 +135,6 @@ body {
   white-space: nowrap;
   pointer-events: none;
   opacity: 0.1;
-  user-select: none; /* Added to prevent selection */
 }
 
 .hashtag-track {
@@ -165,7 +153,6 @@ body {
   letter-spacing: 2px;
   word-spacing: 2rem;
   opacity: 0.8;
-  user-select: none; /* Added to prevent selection */
 }
 
 @keyframes scroll {
@@ -184,7 +171,6 @@ body {
   align-items: center;
   justify-content: center;
   perspective: 1000px;
-  user-select: none; /* Added to prevent selection */
 }
 
 .main-burger {
@@ -196,8 +182,6 @@ body {
   transition: var(--transition);
   transform-style: preserve-3d;
   animation: floatBurger 6s ease-in-out infinite;
-  user-select: none; /* Added to prevent selection */
-  -webkit-user-drag: none; /* Added to prevent dragging */
 }
 
 @keyframes floatBurger {
@@ -231,7 +215,6 @@ body {
   box-shadow: var(--shadow);
   animation: pulse 2s infinite, bounce 3s infinite;
   transform-origin: center;
-  user-select: none; /* Added to prevent selection */
 }
 
 @keyframes bounce {
@@ -245,7 +228,6 @@ body {
   position: absolute;
   z-index: 4;
   animation: float 8s ease-in-out infinite;
-  user-select: none; /* Added to prevent selection */
 }
 
 .floating img {
@@ -253,8 +235,6 @@ body {
   filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
   opacity: 0.9;
   transition: var(--transition);
-  user-select: none; /* Added to prevent selection */
-  -webkit-user-drag: none; /* Added to prevent dragging */
 }
 
 .floating:hover img {
@@ -301,7 +281,6 @@ body {
   z-index: 5;
   box-shadow: 0 5px 25px rgba(252, 185, 0, 0.4);
   overflow: hidden;
-  user-select: none; /* Added to prevent selection */
 }
 
 .order-btn::before {
@@ -338,7 +317,6 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
   scroll-behavior: smooth;
-  user-select: none; /* Added to prevent selection */
 }
 
 .burger-thumbnails::-webkit-scrollbar {
@@ -357,8 +335,6 @@ body {
   transition: var(--transition);
   border: 2px solid transparent;
   backdrop-filter: blur(2px);
-  user-select: none; /* Added to prevent selection */
-  -webkit-user-drag: none; /* Added to prevent dragging */
 }
 
 .burger-thumbnails img:hover {
@@ -387,7 +363,7 @@ body {
   overflow: hidden;
   transition: var(--transition);
   color: var(--dark);
-  z-index: 5;
+  z-index: 10;
 }
 
 .special-burger-container::before {
@@ -401,7 +377,6 @@ body {
   transform: rotate(45deg);
   z-index: -1;
 }
-
 .special-burger-container.animate {
   animation: bounceIn 0.8s ease, glow 2s infinite alternate;
 }
