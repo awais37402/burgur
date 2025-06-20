@@ -1,0 +1,403 @@
+/* Base Styles */
+.gourmet-deals-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header Styles */
+.gourmet-header-wrapper {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.gourmet-deals-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2a2a2a;
+  margin: 0;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+}
+
+.gourmet-heading-icon {
+  font-size: 2rem;
+  animation: bounce 2s infinite;
+}
+
+.gourmet-heading-text {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  padding: 0 1rem;
+}
+
+.gourmet-subheading {
+  font-size: 1.1rem;
+  color: #666;
+  font-weight: 300;
+  letter-spacing: 2px;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+}
+
+/* Timer Ribbon */
+.gourmet-timer-ribbon {
+  background: linear-gradient(135deg, #434343 0%, #000000 100%);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  display: inline-block;
+  margin: 0 auto 2rem;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.gourmet-timer-content {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.gourmet-timer-icon {
+  width: 20px;
+  height: 20px;
+  fill: #ff9a9e;
+}
+
+.gourmet-timer-text {
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.gourmet-timer-text strong {
+  color: #ff9a9e;
+  font-weight: 700;
+}
+
+/* Carousel Container */
+.gourmet-offers-carousel {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 30px 50px rgba(0,0,0,0.15);
+}
+
+/* Deal Card */
+.gourmet-deal-card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: all 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+  opacity: 0;
+  transform: translateX(100%);
+  background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.7)), var(--card-bg);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2.5rem;
+  box-sizing: border-box;
+}
+
+.gourmet-deal-active {
+  opacity: 1;
+  transform: translateX(0);
+  z-index: 2;
+}
+
+/* Card Badge */
+.gourmet-card-badge {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  color: #2a2a2a;
+  padding: 0.5rem 1.2rem;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  z-index: 3;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Card Content */
+.gourmet-card-content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  transform: translateY(20px);
+  transition: transform 0.5s ease;
+}
+
+.gourmet-deal-active .gourmet-card-content {
+  transform: translateY(0);
+}
+
+.gourmet-deal-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  
+}
+
+
+.gourmet-deal-desc {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 1.5rem;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  background-color: rgba(0, 0, 0, 0.5); /* dark background */
+  font-weight: 300;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  color: #fff;
+  display: inline-block; /* ensures background wraps just the content */
+  text-align: center;
+}
+/* Price Container */
+.gourmet-price-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.gourmet-price-wrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.gourmet-sale-price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.gourmet-original-price {
+  font-size: 1.2rem;
+  text-decoration: line-through;
+  color: rgba(255,255,255,0.7);
+  font-weight: 300;
+}
+
+.gourmet-discount-bubble {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* Order Button */
+.gourmet-order-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.2rem 2rem;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  color: #2a2a2a;
+  border: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.gourmet-btn-text {
+  transition: transform 0.3s ease;
+}
+
+.gourmet-btn-icon {
+  font-size: 1.5rem;
+  font-weight: 300;
+  transition: transform 0.3s ease;
+}
+
+.gourmet-order-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+.gourmet-order-btn:hover .gourmet-btn-text {
+  transform: translateX(5px);
+}
+
+.gourmet-order-btn:hover .gourmet-btn-icon {
+  transform: translateX(5px) scale(1.2);
+}
+
+.gourmet-btn-animate {
+  animation: pulse 0.5s ease;
+}
+
+/* Expiry Notice */
+.gourmet-expiry-notice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  margin-top: 1.5rem;
+  color: rgba(255,255,255,0.8);
+  font-weight: 300;
+}
+
+.gourmet-clock-icon {
+  width: 16px;
+  height: 16px;
+  fill: rgba(255,255,255,0.8);
+}
+
+/* Carousel Indicators */
+.gourmet-carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+.gourmet-indicator {
+  width: 50px;
+  height: 4px;
+  background: rgba(0,0,0,0.1);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.gourmet-indicator-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  transition: width 0.1s linear;
+}
+
+.gourmet-indicator-active .gourmet-indicator-progress {
+  animation: progress 5s linear forwards;
+}
+
+/* Animations */
+@keyframes progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .gourmet-deals-heading {
+    font-size: 2rem;
+  }
+  
+  .gourmet-deal-title {
+    font-size: 1.8rem;
+  }
+  
+  .gourmet-deal-desc {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .gourmet-deals-container {
+    padding: 0 1rem;
+  }
+  
+  .gourmet-deals-heading {
+    font-size: 1.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .gourmet-offers-carousel {
+    height: 450px;
+  }
+  
+  .gourmet-deal-card {
+    padding: 1.5rem;
+  }
+  
+  .gourmet-deal-title {
+    font-size: 1.5rem;
+  }
+  
+  .gourmet-sale-price {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gourmet-deals-heading {
+    font-size: 1.3rem;
+  }
+  
+  .gourmet-subheading {
+    font-size: 0.9rem;
+  }
+  
+  .gourmet-offers-carousel {
+    height: 400px;
+  }
+  
+  .gourmet-card-badge {
+    top: 15px;
+    right: 15px;
+    font-size: 0.7rem;
+  }
+  
+  .gourmet-deal-title {
+    font-size: 1.3rem;
+  }
+  
+  .gourmet-deal-desc {
+    font-size: 0.9rem;
+  }
+  
+  .gourmet-order-btn {
+    padding: 1rem;
+  }
+}
