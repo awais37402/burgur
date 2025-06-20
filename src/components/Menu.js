@@ -19,8 +19,7 @@ const Menu = () => {
         vegetarian: false,
         image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.5,
-        new: false,
-        special: false
+        new: false
       },
       {
         id: 2,
@@ -31,8 +30,7 @@ const Menu = () => {
         vegetarian: false,
         image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.8,
-        new: true,
-        special: true
+        new: true
       },
       {
         id: 3,
@@ -43,8 +41,7 @@ const Menu = () => {
         vegetarian: false,
         image: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.7,
-        new: false,
-        special: false
+        new: false
       },
       {
         id: 4,
@@ -55,8 +52,7 @@ const Menu = () => {
         vegetarian: false,
         image: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.6,
-        new: false,
-        special: true
+        new: false
       },
       {
         id: 5,
@@ -67,8 +63,7 @@ const Menu = () => {
         vegetarian: true,
         image: 'https://www.magnafoodservice.co.uk/wp-content/uploads/vegetarian-and-vegan/burgers/katerveg-spiced-vegetable-supreme-burger-95gm-48pcs.jpg',
         rating: 4.4,
-        new: false,
-        special: false
+        new: false
       },
       {
         id: 6,
@@ -79,8 +74,7 @@ const Menu = () => {
         vegetarian: false,
         image: 'https://www.finefoodspecialist.co.uk/media/recipe/white-truffle-porcini-burger.jpg',
         rating: 4.9,
-        new: true,
-        special: true
+        new: true
       }
     ],
     sides: [
@@ -93,8 +87,7 @@ const Menu = () => {
         vegetarian: true,
         image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.2,
-        new: false,
-        special: false
+        new: false
       },
       {
         id: 8,
@@ -105,8 +98,7 @@ const Menu = () => {
         vegetarian: true,
         image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_FKUjlqURBS6yqDjjDmbcN5MUBz2V-QAeiw&s',
         rating: 4.3,
-        new: false,
-        special: false
+        new: false
       },
       {
         id: 9,
@@ -117,8 +109,7 @@ const Menu = () => {
         vegetarian: false,
         image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.6,
-        new: true,
-        special: false
+        new: true
       }
     ],
     drinks: [
@@ -131,8 +122,7 @@ const Menu = () => {
         vegetarian: true,
         image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.1,
-        new: false,
-        special: false
+        new: false
       },
       {
         id: 11,
@@ -143,8 +133,7 @@ const Menu = () => {
         vegetarian: true,
         image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 3.9,
-        new: false,
-        special: false
+        new: false
       },
       {
         id: 12,
@@ -155,20 +144,30 @@ const Menu = () => {
         vegetarian: true,
         image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSz_o7Fyh5jejJFuRnK7vSVA-Zbhzt6o87_Bg&s',
         rating: 4.7,
-        new: true,
-        special: true
+        new: true
       }
     ]
   };
 
   const addToCart = (item) => {
     setCart([...cart, item]);
-    
-    // Show notification
-    setNotification({ show: true, message: `${item.name} added to cart!` });
+    showNotification(`${item.name} added to cart!`);
+    animateCartButton();
+  };
+
+  const removeFromCart = (index) => {
+    const newCart = [...cart];
+    const removedItem = newCart.splice(index, 1)[0];
+    setCart(newCart);
+    showNotification(`${removedItem.name} removed from cart`);
+  };
+
+  const showNotification = (message) => {
+    setNotification({ show: true, message });
     setTimeout(() => setNotification({ show: false, message: '' }), 3000);
-    
-    // Bounce animation
+  };
+
+  const animateCartButton = () => {
     const cartBtn = document.querySelector('.cart-toggle');
     if (cartBtn) {
       cartBtn.classList.add('bounce');
@@ -176,50 +175,28 @@ const Menu = () => {
     }
   };
 
-  const removeFromCart = (index) => {
-    const newCart = [...cart];
-    const removedItem = newCart.splice(index, 1)[0];
-    setCart(newCart);
-    
-    // Show removal notification
-    setNotification({ show: true, message: `${removedItem.name} removed from cart` });
-    setTimeout(() => setNotification({ show: false, message: '' }), 3000);
-  };
-
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + item.price, 0).toFixed(2);
   };
 
-
-
   useEffect(() => {
-    // Add animation classes when component mounts
-    const sectionTitles = document.querySelectorAll('.section-title');
-    sectionTitles.forEach(title => title.classList.add('animate-slide-in'));
-    
-    const menuItems = document.querySelectorAll('.menu-item');
-    menuItems.forEach((item, index) => {
+    // Add animation classes when category changes
+    const items = document.querySelectorAll('.menu-item');
+    items.forEach((item, index) => {
+      item.style.animationDelay = `${index * 0.1}s`;
       item.classList.add('animate-pop');
-      item.style.animationDelay = `${index * 0.1 + 0.2}s`;
     });
   }, [activeCategory]);
 
   return (
-    <div className={`menu-container ${darkMode ? 'dark-mode' : ''}`}>
-      {/* Dark Mode Toggle */}
-    
-      {/* Particle Background */}
-      <div className="particle-background"></div>
-      <div className="bubbles">
-        {[...Array(10)].map((_, i) => (
-          <div key={i} className={`bubble bubble-${i + 1}`}></div>
-        ))}
-      </div>
+    <div className={`menu-container ${darkMode ? 'dark-mode' : 'light-mode'}`}>
+      {/* Theme Toggle */}
+     
 
       {/* Header */}
       <header className="menu-header">
         <h1 className="title-animate">Burger Haven</h1>
-        <p className="subtitle-animate">Crafted with passion, served with perfection. Explore our artisanal burgers and sides.</p>
+        <p className="subtitle-animate">Crafted with passion, served with perfection</p>
       </header>
 
       {/* Categories Navigation */}
@@ -243,15 +220,14 @@ const Menu = () => {
         <div className="items-grid">
           {menuItems[activeCategory].map(item => (
             <div key={item.id} className="menu-item">
-              {item.special && <span className="special-badge">Chef's Special</span>}
-              <img src={item.image} alt={item.name} className="item-image" />
+              <div className="item-image-container">
+                <img src={item.image} alt={item.name} className="item-image" />
+                {item.new && <span className="new-badge">New!</span>}
+                {item.spicy && <span className="spicy-badge">🔥</span>}
+                {item.vegetarian && <span className="veg-badge">🌱</span>}
+              </div>
               <div className="item-info">
                 <h3>{item.name}</h3>
-                <div className="tags">
-                  {item.spicy && <span className="spicy-tag">Spicy</span>}
-                  {item.vegetarian && <span className="veg-tag">Vegetarian</span>}
-                  {item.new && <span className="new-tag">New</span>}
-                </div>
                 <div className="rating">
                   {[...Array(5)].map((_, i) => (
                     <span key={i} className="star">
@@ -262,9 +238,9 @@ const Menu = () => {
                 </div>
                 <p>{item.description}</p>
                 <div className="item-footer">
-                  <span className="price">{item.price}</span>
+                  <span className="price">${item.price.toFixed(2)}</span>
                   <button 
-                    className="add-to-cart" 
+                    className="add-to-cart"
                     onClick={() => addToCart(item)}
                   >
                     Add to Cart
@@ -290,7 +266,10 @@ const Menu = () => {
             </button>
           </div>
           {cart.length === 0 ? (
-            <div className="empty-cart">Your cart is empty</div>
+            <div className="empty-cart">
+              <p>Your cart is empty</p>
+              <small>Add some delicious items to get started!</small>
+            </div>
           ) : (
             <>
               <ul className="cart-items">
@@ -298,11 +277,17 @@ const Menu = () => {
                   <li key={`${item.id}-${index}`} className="cart-item">
                     <div className="cart-item-info">
                       <img src={item.image} alt={item.name} className="cart-item-image" />
-                      <span className="cart-item-name">{item.name}</span>
+                      <div className="cart-item-details">
+                        <span className="cart-item-name">{item.name}</span>
+                        <div className="cart-item-tags">
+                          {item.spicy && <span className="tag spicy">Spicy</span>}
+                          {item.vegetarian && <span className="tag veg">Veg</span>}
+                        </div>
+                      </div>
                     </div>
-                    <span className="cart-item-price">{item.price}</span>
+                    <span className="cart-item-price">${item.price.toFixed(2)}</span>
                     <button 
-                      className="remove-item" 
+                      className="remove-item"
                       onClick={() => removeFromCart(index)}
                     >
                       ×
@@ -315,7 +300,7 @@ const Menu = () => {
                 <span>${calculateTotal()}</span>
               </div>
               <button className="checkout-button">
-                Checkout
+                Proceed to Checkout
               </button>
             </>
           )}
@@ -324,7 +309,7 @@ const Menu = () => {
 
       {/* Notification */}
       {notification.show && (
-        <div className="notification show">
+        <div className="notification">
           {notification.message}
         </div>
       )}
