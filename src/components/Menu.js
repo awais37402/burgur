@@ -3,9 +3,6 @@ import './Menu.css';
 
 const Menu = () => {
   const [activeCategory, setActiveCategory] = useState('burgers');
-  const [cart, setCart] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [notification, setNotification] = useState({ show: false, message: '' });
   const [darkMode, setDarkMode] = useState(false);
 
   const menuItems = {
@@ -149,36 +146,6 @@ const Menu = () => {
     ]
   };
 
-  const addToCart = (item) => {
-    setCart([...cart, item]);
-    showNotification(`${item.name} added to cart!`);
-    animateCartButton();
-  };
-
-  const removeFromCart = (index) => {
-    const newCart = [...cart];
-    const removedItem = newCart.splice(index, 1)[0];
-    setCart(newCart);
-    showNotification(`${removedItem.name} removed from cart`);
-  };
-
-  const showNotification = (message) => {
-    setNotification({ show: true, message });
-    setTimeout(() => setNotification({ show: false, message: '' }), 3000);
-  };
-
-  const animateCartButton = () => {
-    const cartBtn = document.querySelector('.cart-toggle');
-    if (cartBtn) {
-      cartBtn.classList.add('bounce');
-      setTimeout(() => cartBtn.classList.remove('bounce'), 1000);
-    }
-  };
-
-  const calculateTotal = () => {
-    return cart.reduce((total, item) => total + item.price, 0).toFixed(2);
-  };
-
   useEffect(() => {
     // Add animation classes when category changes
     const items = document.querySelectorAll('.menu-item');
@@ -190,9 +157,6 @@ const Menu = () => {
 
   return (
     <div className={`menu-container ${darkMode ? 'dark-mode' : 'light-mode'}`}>
-      {/* Theme Toggle */}
-     
-
       {/* Header */}
       <header className="menu-header">
         <h1 className="title-animate">Burger Haven</h1>
@@ -241,7 +205,6 @@ const Menu = () => {
                   <span className="price">${item.price.toFixed(2)}</span>
                   <button 
                     className="add-to-cart"
-                    onClick={() => addToCart(item)}
                   >
                     Add to Cart
                   </button>
@@ -251,68 +214,6 @@ const Menu = () => {
           ))}
         </div>
       </section>
-
-      {/* Shopping Cart */}
-      <div className={`cart-container ${isCartOpen ? 'open' : ''}`}>
-        <button className="cart-toggle" onClick={() => setIsCartOpen(!isCartOpen)}>
-          🛒
-          {cart.length > 0 && <span className="cart-count">{cart.length}</span>}
-        </button>
-        <div className="cart-content">
-          <div className="cart-header">
-            <h3>Your Order</h3>
-            <button className="close-cart" onClick={() => setIsCartOpen(false)}>
-              ×
-            </button>
-          </div>
-          {cart.length === 0 ? (
-            <div className="empty-cart">
-              <p>Your cart is empty</p>
-              <small>Add some delicious items to get started!</small>
-            </div>
-          ) : (
-            <>
-              <ul className="cart-items">
-                {cart.map((item, index) => (
-                  <li key={`${item.id}-${index}`} className="cart-item">
-                    <div className="cart-item-info">
-                      <img src={item.image} alt={item.name} className="cart-item-image" />
-                      <div className="cart-item-details">
-                        <span className="cart-item-name">{item.name}</span>
-                        <div className="cart-item-tags">
-                          {item.spicy && <span className="tag spicy">Spicy</span>}
-                          {item.vegetarian && <span className="tag veg">Veg</span>}
-                        </div>
-                      </div>
-                    </div>
-                    <span className="cart-item-price">${item.price.toFixed(2)}</span>
-                    <button 
-                      className="remove-item"
-                      onClick={() => removeFromCart(index)}
-                    >
-                      ×
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              <div className="cart-total">
-                <span>Total:</span>
-                <span>${calculateTotal()}</span>
-              </div>
-              <button className="checkout-button">
-                Proceed to Checkout
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Notification */}
-      {notification.show && (
-        <div className="notification">
-          {notification.message}
-        </div>
-      )}
     </div>
   );
 };
