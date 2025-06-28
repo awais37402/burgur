@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Cart.css';
 
-const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
+const Cart = ({ cartItems = [], updateQuantity, removeItem, onBack }) => {
   const [couponCode, setCouponCode] = useState('');
   const [discount, setDiscount] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -13,25 +13,50 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
     instructions: ''
   });
   const [paymentMethod, setPaymentMethod] = useState('credit');
+  const [cardInfo, setCardInfo] = useState({
+    cardNumber: '',
+    expiry: '',
+    cvv: '',
+    cardName: ''
+  });
 
   // Apply coupon
   const applyCoupon = () => {
-    if (couponCode === 'BUGUR20') {
+    if (couponCode.toUpperCase() === 'BUGUR20') {
       setDiscount(0.2); // 20% discount
       alert('Coupon applied! 20% discount added.');
     } else {
       alert('Invalid coupon code');
+      setCouponCode('');
     }
   };
 
   // Calculate prices
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
   const tax = subtotal * 0.1;
   const discountAmount = subtotal * discount;
   const total = subtotal + tax - discountAmount;
 
   // Checkout handler
   const handleCheckout = () => {
+    if (paymentMethod === 'credit' && 
+        (!cardInfo.cardNumber || !cardInfo.expiry || !cardInfo.cvv || !cardInfo.cardName)) {
+      alert('Please fill in all credit card details');
+      return;
+    }
+    
+    const orderData = {
+      items: cartItems,
+      deliveryInfo,
+      paymentMethod,
+      cardInfo: paymentMethod === 'credit' ? cardInfo : null,
+      subtotal,
+      tax,
+      discount: discountAmount,
+      total
+    };
+    
+    console.log('Order placed:', orderData);
     alert('Order placed successfully!');
     // Here you would typically send the order to your backend
   };
@@ -51,6 +76,12 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
     setDeliveryInfo(prev => ({ ...prev, [name]: value }));
   };
 
+  // Handle card info change
+  const handleCardChange = (e) => {
+    const { name, value } = e.target;
+    setCardInfo(prev => ({ ...prev, [name]: value }));
+  };
+
   // Proceed to next step
   const proceedToNextStep = () => {
     if (activeStep === 'cart') setActiveStep('delivery');
@@ -65,8 +96,10 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
 
   // Animate quantity changes
   const animateQuantityChange = (id, newQuantity) => {
+    if (newQuantity < 1) return;
+    
     setIsAnimating(true);
-    updateQuantity(id, newQuantity);
+    if (updateQuantity) updateQuantity(id, newQuantity);
     setTimeout(() => setIsAnimating(false), 300);
   };
 
@@ -74,7 +107,7 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
   const animateRemoveItem = (id) => {
     setIsAnimating(true);
     setTimeout(() => {
-      removeItem(id);
+      if (removeItem) removeItem(id);
       setIsAnimating(false);
     }, 200);
   };
@@ -103,13 +136,15 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
 
   return (
     <div className={`bugur-cart-container ${isAnimating ? 'bugur-cart-animate' : ''}`}>
-      {/* Back Button */}
-      <button 
-        onClick={activeStep === 'cart' ? handleContinueShopping : goBackToPreviousStep}
-        className="bugur-cart-back-btn"
-      >
-        ← {activeStep === 'cart' ? 'Continue Shopping' : 'Back'}
-      </button>
+      {/* Back Button - Only shown for cart step */}
+      {activeStep === 'cart' && (
+        <button 
+          onClick={handleContinueShopping}
+          className="bugur-cart-back-btn"
+        >
+          ← Continue Shopping
+        </button>
+      )}
 
       <div className="bugur-cart-header">
         <h1 className="bugur-cart-title">
@@ -146,50 +181,63 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
                   <div className="bugur-cart-item-product">
                     <div className="bugur-cart-item-image-container">
                       <img
-                        src={item.image}
+                        src={item.image || 'https://via.placeholder.com/100'}
                         alt={item.name}
                         className="bugur-cart-item-image"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://via.placeholder.com/100';
+                        }}
                       />
                       <button
                         className="bugur-cart-item-remove"
                         onClick={() => animateRemoveItem(item.id)}
+                        aria-label="Remove item"
                       >
                         ×
                       </button>
                     </div>
                     <div className="bugur-cart-item-details">
-                      <h3 className="bugur-cart-item-name">{item.name}</h3>
+                      <h3 className="bugur-cart-item-name">{item.name || 'Premium Burger'}</h3>
                       <div className="bugur-cart-item-attributes">
-                        <span className="bugur-cart-item-attribute">
-                          <span className="bugur-cart-attribute-label">Size:</span> {item.size}
-                        </span>
-                        <span className="bugur-cart-item-attribute">
-                          <span className="bugur-cart-attribute-label">Color:</span> {item.color}
-                        </span>
+                        {item.size && (
+                          <span className="bugur-cart-item-attribute">
+                            <span className="bugur-cart-attribute-label">Size:</span> {item.size}
+                          </span>
+                        )}
+                        {item.color && (
+                          <span className="bugur-cart-item-attribute">
+                            <span className="bugur-cart-attribute-label">Color:</span> {item.color}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
 
-                  <div className="bugur-cart-item-price">${item.price.toFixed(2)}</div>
+                  <div className="bugur-cart-item-price">
+                    ${(item.price || 0).toFixed(2)}
+                  </div>
 
                   <div className="bugur-cart-item-quantity">
                     <button
                       className="bugur-cart-quantity-btn"
-                      onClick={() => animateQuantityChange(item.id, item.quantity - 1)}
+                      onClick={() => animateQuantityChange(item.id, (item.quantity || 1) - 1)}
+                      aria-label="Decrease quantity"
                     >
                       −
                     </button>
-                    <span className="bugur-cart-quantity-value">{item.quantity}</span>
+                    <span className="bugur-cart-quantity-value">{item.quantity || 1}</span>
                     <button
                       className="bugur-cart-quantity-btn"
-                      onClick={() => animateQuantityChange(item.id, item.quantity + 1)}
+                      onClick={() => animateQuantityChange(item.id, (item.quantity || 1) + 1)}
+                      aria-label="Increase quantity"
                     >
                       +
                     </button>
                   </div>
 
                   <div className="bugur-cart-item-total">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    ${((item.price || 0) * (item.quantity || 1)).toFixed(2)}
                   </div>
                 </div>
               ))}
@@ -202,10 +250,12 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
                 className="bugur-cart-coupon-input"
                 value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value)}
+                aria-label="Coupon code"
               />
               <button
                 className="bugur-cart-coupon-btn"
                 onClick={applyCoupon}
+                aria-label="Apply coupon"
               >
                 Apply Coupon
               </button>
@@ -243,9 +293,25 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
               <button
                 className="bugur-cart-checkout-btn"
                 onClick={proceedToNextStep}
+                aria-label="Proceed to delivery"
               >
                 Proceed to Delivery
               </button>
+
+              <div className="bugur-cart-payment-methods">
+                <p className="bugur-cart-payment-title">We accept</p>
+                <div className="bugur-cart-payment-icons">
+                  <span className="bugur-cart-payment-icon" style={{ backgroundImage: 'url(https://cdn-icons-png.flaticon.com/512/196/196578.png)' }} aria-label="Visa"></span>
+                  <span className="bugur-cart-payment-icon" style={{ backgroundImage: 'url(https://cdn-icons-png.flaticon.com/512/196/196561.png)' }} aria-label="Mastercard"></span>
+                  <span className="bugur-cart-payment-icon" style={{ backgroundImage: 'url(https://cdn-icons-png.flaticon.com/512/196/196566.png)' }} aria-label="American Express"></span>
+                  <span className="bugur-cart-payment-icon" style={{ backgroundImage: 'url(https://cdn-icons-png.flaticon.com/512/196/196565.png)' }} aria-label="PayPal"></span>
+                </div>
+              </div>
+
+              <div className="bugur-cart-security-badge">
+                <span className="bugur-cart-security-icon">🔒</span>
+                <span>Secure Checkout</span>
+              </div>
             </div>
           </div>
         </div>
@@ -257,9 +323,10 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
             <h2>Delivery Information</h2>
             
             <div className="bugur-form-group">
-              <label>Full Name</label>
+              <label htmlFor="delivery-name">Full Name</label>
               <input
                 type="text"
+                id="delivery-name"
                 name="name"
                 value={deliveryInfo.name}
                 onChange={handleDeliveryChange}
@@ -269,9 +336,10 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
             </div>
 
             <div className="bugur-form-group">
-              <label>Delivery Address</label>
+              <label htmlFor="delivery-address">Delivery Address</label>
               <input
                 type="text"
+                id="delivery-address"
                 name="address"
                 value={deliveryInfo.address}
                 onChange={handleDeliveryChange}
@@ -281,9 +349,10 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
             </div>
 
             <div className="bugur-form-group">
-              <label>Phone Number</label>
+              <label htmlFor="delivery-phone">Phone Number</label>
               <input
                 type="tel"
+                id="delivery-phone"
                 name="phone"
                 value={deliveryInfo.phone}
                 onChange={handleDeliveryChange}
@@ -293,8 +362,9 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
             </div>
 
             <div className="bugur-form-group">
-              <label>Special Instructions (Optional)</label>
+              <label htmlFor="delivery-instructions">Special Instructions (Optional)</label>
               <textarea
+                id="delivery-instructions"
                 name="instructions"
                 value={deliveryInfo.instructions}
                 onChange={handleDeliveryChange}
@@ -306,6 +376,7 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
               <button
                 className="bugur-cart-back-btn"
                 onClick={goBackToPreviousStep}
+                type="button"
               >
                 ← Back to Cart
               </button>
@@ -313,6 +384,7 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
                 className="bugur-cart-checkout-btn"
                 onClick={proceedToNextStep}
                 disabled={!deliveryInfo.name || !deliveryInfo.address || !deliveryInfo.phone}
+                type="button"
               >
                 Continue to Payment
               </button>
@@ -373,9 +445,13 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
             {paymentMethod === 'credit' && (
               <div className="bugur-credit-card-form">
                 <div className="bugur-form-group">
-                  <label>Card Number</label>
+                  <label htmlFor="card-number">Card Number</label>
                   <input
                     type="text"
+                    id="card-number"
+                    name="cardNumber"
+                    value={cardInfo.cardNumber}
+                    onChange={handleCardChange}
                     placeholder="1234 5678 9012 3456"
                     pattern="[0-9\s]{13,19}"
                     required
@@ -384,9 +460,13 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
 
                 <div className="bugur-form-row">
                   <div className="bugur-form-group">
-                    <label>Expiry Date</label>
+                    <label htmlFor="card-expiry">Expiry Date</label>
                     <input
                       type="text"
+                      id="card-expiry"
+                      name="expiry"
+                      value={cardInfo.expiry}
+                      onChange={handleCardChange}
                       placeholder="MM/YY"
                       pattern="\d{2}/\d{2}"
                       required
@@ -394,20 +474,28 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
                   </div>
 
                   <div className="bugur-form-group">
-                    <label>CVV</label>
+                    <label htmlFor="card-cvv">CVV</label>
                     <input
                       type="text"
+                      id="card-cvv"
+                      name="cvv"
+                      value={cardInfo.cvv}
+                      onChange={handleCardChange}
                       placeholder="123"
-                      pattern="\d{3}"
+                      pattern="\d{3,4}"
                       required
                     />
                   </div>
                 </div>
 
                 <div className="bugur-form-group">
-                  <label>Cardholder Name</label>
+                  <label htmlFor="card-name">Cardholder Name</label>
                   <input
                     type="text"
+                    id="card-name"
+                    name="cardName"
+                    value={cardInfo.cardName}
+                    onChange={handleCardChange}
                     placeholder="Name on card"
                     required
                   />
@@ -441,12 +529,14 @@ const Cart = ({ cartItems, updateQuantity, removeItem, onBack }) => {
               <button
                 className="bugur-cart-back-btn"
                 onClick={goBackToPreviousStep}
+                type="button"
               >
                 ← Back to Delivery
               </button>
               <button
                 className="bugur-cart-checkout-btn"
                 onClick={handleCheckout}
+                type="button"
               >
                 Place Order
               </button>

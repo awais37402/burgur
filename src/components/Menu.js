@@ -3,151 +3,139 @@ import './Menu.css';
 
 const Menu = () => {
   const [activeCategory, setActiveCategory] = useState('burgers');
-  const [darkMode, setDarkMode] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [isCartAnimating, setIsCartAnimating] = useState(false);
 
   const menuItems = {
     burgers: [
       {
         id: 1,
         name: 'Classic Cheeseburger',
-        description: 'Juicy beef patty with melted American cheese, crisp lettuce, ripe tomato, pickles, onions, and our signature sauce on a toasted brioche bun.',
-        price: 8.99,
+        description: 'Premium Angus beef, aged cheddar, lettuce, tomato, house sauce on brioche',
+        price: 12.99,
         spicy: false,
         vegetarian: false,
         image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-        rating: 4.5,
-        new: false
+        rating: 4.7,
+        new: false,
+        featured: true
       },
       {
         id: 2,
-        name: 'Bacon Deluxe',
-        description: 'Two 1/4 lb beef patties, crispy applewood smoked bacon, cheddar cheese, caramelized onions, lettuce, tomato, and smoky BBQ sauce.',
-        price: 11.99,
+        name: 'Truffle Royale',
+        description: 'Wagyu beef, black truffle aioli, wild mushrooms, parmesan crisp',
+        price: 18.99,
         spicy: false,
         vegetarian: false,
-        image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-        rating: 4.8,
-        new: true
+        image: 'https://images.unsplash.com/photo-1571091655789-405eb7a3a3a8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+        rating: 4.9,
+        new: true,
+        featured: true
       },
       {
         id: 3,
-        name: 'Spicy Jalapeño',
-        description: 'Angus beef patty with pepper jack cheese, fresh jalapeños, chipotle mayo, lettuce, tomato, and crispy onion strings on a spicy pretzel bun.',
-        price: 9.99,
+        name: 'Spicy Inferno',
+        description: 'Double patty, ghost pepper cheese, jalapeños, chipotle mayo, pepper bun',
+        price: 15.99,
         spicy: true,
         vegetarian: false,
         image: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-        rating: 4.7,
-        new: false
+        rating: 4.8,
+        new: false,
+        featured: false
       },
       {
         id: 4,
-        name: 'Mushroom Swiss',
-        description: '1/3 lb beef patty topped with sautéed mushrooms, Swiss cheese, garlic aioli, and arugula on a toasted ciabatta roll.',
-        price: 10.49,
+        name: 'Avocado Bliss',
+        description: 'Grass-fed beef, smashed avocado, heirloom tomato, sprouts, garlic aioli',
+        price: 14.99,
         spicy: false,
         vegetarian: false,
         image: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.6,
-        new: false
+        new: false,
+        featured: false
       },
       {
         id: 5,
-        name: 'Veggie Supreme',
-        description: 'House-made black bean and quinoa patty with avocado, sprouts, tomato, red onion, and garlic aioli on a whole wheat bun.',
-        price: 9.49,
+        name: 'Umami Bomb',
+        description: 'Dry-aged beef, shiitake mushrooms, caramelized onions, miso glaze, Swiss',
+        price: 16.99,
         spicy: false,
-        vegetarian: true,
-        image: 'https://www.magnafoodservice.co.uk/wp-content/uploads/vegetarian-and-vegan/burgers/katerveg-spiced-vegetable-supreme-burger-95gm-48pcs.jpg',
-        rating: 4.4,
-        new: false
+        vegetarian: false,
+        image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+        rating: 4.7,
+        new: true,
+        featured: false
       },
       {
         id: 6,
-        name: 'Truffle Burger',
-        description: 'Wagyu beef patty with truffle aioli, wild mushrooms, arugula, shaved parmesan, and balsamic glaze on an artisan brioche bun.',
-        price: 14.99,
+        name: 'Black Bean Supreme',
+        description: 'House-made black bean patty, avocado, chipotle mayo, roasted peppers',
+        price: 13.99,
         spicy: false,
-        vegetarian: false,
-        image: 'https://www.finefoodspecialist.co.uk/media/recipe/white-truffle-porcini-burger.jpg',
-        rating: 4.9,
-        new: true
+        vegetarian: true,
+        image: 'https://images.unsplash.com/photo-1582192763789-f20c0da1ab5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+        rating: 4.5,
+        new: false,
+        featured: false
       }
     ],
     sides: [
       {
         id: 7,
-        name: 'Crispy Fries',
-        description: 'Hand-cut russet potatoes double-fried to perfection and tossed with sea salt. Served with house-made ketchup.',
-        price: 3.99,
+        name: 'Truffle Fries',
+        description: 'Hand-cut with truffle oil, parmesan, parsley, truffle aioli',
+        price: 7.99,
         spicy: false,
         vegetarian: true,
         image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-        rating: 4.2,
-        new: false
+        rating: 4.6,
+        new: false,
+        featured: false
       },
       {
         id: 8,
-        name: 'Onion Rings',
-        description: 'Thick-cut sweet onions beer-battered and fried until golden. Served with spicy ranch dressing.',
-        price: 4.99,
+        name: 'Crispy Onion Rings',
+        description: 'Beer-battered Vidalia onions, smoked paprika aioli',
+        price: 6.99,
         spicy: false,
         vegetarian: true,
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_FKUjlqURBS6yqDjjDmbcN5MUBz2V-QAeiw&s',
-        rating: 4.3,
-        new: false
-      },
-      {
-        id: 9,
-        name: 'Spicy Buffalo Wings',
-        description: 'Jumbo chicken wings tossed in your choice of mild, hot, or atomic buffalo sauce. Served with celery sticks and blue cheese dressing.',
-        price: 7.99,
-        spicy: true,
-        vegetarian: false,
-        image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-        rating: 4.6,
-        new: true
+        image: 'https://images.unsplash.com/photo-1582515073490-39981397c445?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+        rating: 4.4,
+        new: false,
+        featured: false
       }
     ],
     drinks: [
       {
-        id: 10,
-        name: 'Craft Soda',
-        description: 'Handcrafted soda in flavors like vanilla cream, blood orange, and huckleberry. Made with real cane sugar.',
-        price: 2.99,
-        spicy: false,
-        vegetarian: true,
-        image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-        rating: 4.1,
-        new: false
-      },
-      {
-        id: 11,
-        name: 'Iced Tea',
-        description: 'Freshly brewed black tea served over ice. Choose sweetened or unsweetened with lemon wedges on the side.',
-        price: 2.49,
-        spicy: false,
-        vegetarian: true,
-        image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-        rating: 3.9,
-        new: false
-      },
-      {
-        id: 12,
-        name: 'Milkshake',
-        description: 'Creamy hand-spun milkshakes in vanilla, chocolate, strawberry, or seasonal special flavors. Topped with whipped cream.',
+        id: 9,
+        name: 'Craft Lemonade',
+        description: 'House-made with organic lemons, lavender or ginger option',
         price: 4.99,
         spicy: false,
         vegetarian: true,
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSz_o7Fyh5jejJFuRnK7vSVA-Zbhzt6o87_Bg&s',
-        rating: 4.7,
-        new: true
+        image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+        rating: 4.3,
+        new: false,
+        featured: false
       }
     ]
   };
 
+  const addToCart = (item) => {
+    setCartItems([...cartItems, item]);
+    setIsCartAnimating(true);
+    setTimeout(() => setIsCartAnimating(false), 1000);
+    
+    const button = document.getElementById(`add-btn-${item.id}`);
+    if (button) {
+      button.classList.add('added');
+      setTimeout(() => button.classList.remove('added'), 1000);
+    }
+  };
+
   useEffect(() => {
-    // Add animation classes when category changes
     const items = document.querySelectorAll('.menu-item');
     items.forEach((item, index) => {
       item.style.animationDelay = `${index * 0.1}s`;
@@ -156,14 +144,15 @@ const Menu = () => {
   }, [activeCategory]);
 
   return (
-    <div className={`menu-container ${darkMode ? 'dark-mode' : 'light-mode'}`}>
-      {/* Header */}
+    <div className="menu-container">
       <header className="menu-header">
-        <h1 className="title-animate">Burger Haven</h1>
-        <p className="subtitle-animate">Crafted with passion, served with perfection</p>
+        <div className="header-content">
+          <h1 className="title">BURGER <span>HAVEN</span></h1>
+          <p className="subtitle">Artisanal Burgers & Crafted Flavors</p>
+          <div className="header-decoration"></div>
+        </div>
       </header>
 
-      {/* Categories Navigation */}
       <nav className="menu-categories">
         {Object.keys(menuItems).map(category => (
           <button
@@ -171,42 +160,53 @@ const Menu = () => {
             className={`category-btn ${activeCategory === category ? 'active' : ''}`}
             onClick={() => setActiveCategory(category)}
           >
-            {category.charAt(0).toUpperCase() + category.slice(1)}
+            <span className="btn-text">{category.charAt(0).toUpperCase() + category.slice(1)}</span>
+            <span className="btn-underline"></span>
           </button>
         ))}
       </nav>
 
-      {/* Menu Items */}
       <section className="menu-items">
-        <h2 className="section-title">
-          {activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
-        </h2>
+        <div className="section-header">
+          <h2 className="section-title">
+            {activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
+          </h2>
+          <div className="section-line"></div>
+        </div>
         <div className="items-grid">
           {menuItems[activeCategory].map(item => (
-            <div key={item.id} className="menu-item">
+            <div key={item.id} className={`menu-item ${item.featured ? 'featured' : ''}`}>
               <div className="item-image-container">
                 <img src={item.image} alt={item.name} className="item-image" />
-                {item.new && <span className="new-badge">New!</span>}
-                {item.spicy && <span className="spicy-badge">🔥</span>}
-                {item.vegetarian && <span className="veg-badge">🌱</span>}
+                <div className="item-badges">
+                  {item.new && <span className="new-badge">NEW</span>}
+                  {item.spicy && <span className="spicy-badge">SPICY</span>}
+                  {item.vegetarian && <span className="veg-badge">VEG</span>}
+                </div>
               </div>
               <div className="item-info">
-                <h3>{item.name}</h3>
-                <div className="rating">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i} className="star">
-                      {i < Math.floor(item.rating) ? '★' : '☆'}
-                    </span>
-                  ))}
-                  <span>({item.rating})</span>
+                <div className="item-header">
+                  <h3>{item.name}</h3>
+                  <div className="rating">
+                    {[...Array(5)].map((_, i) => (
+                      <span key={i} className={i < Math.floor(item.rating) ? 'star-filled' : 'star-empty'}>
+                        ★
+                      </span>
+                    ))}
+                    <span className="rating-value">{item.rating.toFixed(1)}</span>
+                  </div>
                 </div>
-                <p>{item.description}</p>
+                <p className="item-description">{item.description}</p>
                 <div className="item-footer">
                   <span className="price">${item.price.toFixed(2)}</span>
                   <button 
+                    id={`add-btn-${item.id}`}
                     className="add-to-cart"
+                    onClick={() => addToCart(item)}
                   >
-                    Add to Cart
+                    <span className="add-text">ADD TO CART</span>
+                    <span className="added-text">ADDED!</span>
+                    <span className="cart-icon">+</span>
                   </button>
                 </div>
               </div>
@@ -214,6 +214,11 @@ const Menu = () => {
           ))}
         </div>
       </section>
+
+      <div className={`cart-indicator ${isCartAnimating ? 'animate' : ''} ${cartItems.length > 0 ? 'visible' : ''}`}>
+        <span className="cart-count">{cartItems.length}</span>
+        <div className="cart-icon"></div>
+      </div>
     </div>
   );
 };
