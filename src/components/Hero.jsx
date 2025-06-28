@@ -72,7 +72,7 @@ function Hero({ goToAbout, addToCart }) {
 
               <li className="nav-logo-container">
                 <img
-                  src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+                  src="https://cdn.pixabay.com/photo/2020/10/24/06/36/burger-5680639_1280.png"
                   alt="Burger Logo"
                   className="nav-logo"
                   loading="lazy"
