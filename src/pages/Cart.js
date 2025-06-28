@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Cart.css';
 
-const Cart = () => {
+const Cart = ({ onBack }) => {
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [couponCode, setCouponCode] = useState('');
@@ -51,6 +51,7 @@ const Cart = () => {
   const applyCoupon = () => {
     if (couponCode === 'BUGUR20') {
       setDiscount(0.2); // 20% discount
+      alert('Coupon applied! 20% discount added.');
     } else {
       alert('Invalid coupon code');
     }
@@ -69,8 +70,16 @@ const Cart = () => {
 
   // Explore Menu navigation
   const handleExploreMenu = () => {
-    // Redirect to Menu page (must match your file structure)
-    window.location.href = '../components/menu.html'; // or menu.js if it's a separate page
+    window.location.href = '/menu';
+  };
+
+  // Continue Shopping handler (using back button)
+  const handleContinueShopping = () => {
+    if (onBack) {
+      onBack();
+    } else {
+      window.history.back();
+    }
   };
 
   if (isLoading) {
@@ -85,6 +94,14 @@ const Cart = () => {
   if (cartItems.length === 0) {
     return (
       <div className="bugur-cart-empty-state">
+        {onBack && (
+          <button 
+            onClick={handleContinueShopping}
+            className="bugur-cart-back-btn"
+          >
+            ← Continue Shopping
+          </button>
+        )}
         <div className="bugur-cart-empty-icon">🛒</div>
         <h2>Your Bugur Cart is Empty</h2>
         <p>Discover our delicious burgers and add some to your cart</p>
@@ -100,6 +117,16 @@ const Cart = () => {
 
   return (
     <div className={`bugur-cart-container ${isAnimating ? 'bugur-cart-animate' : ''}`}>
+      {/* Back Button */}
+      {onBack && (
+        <button 
+          onClick={handleContinueShopping}
+          className="bugur-cart-back-btn"
+        >
+          ← Continue Shopping
+        </button>
+      )}
+
       <div className="bugur-cart-header">
         <h1 className="bugur-cart-title">Your Premium Cart</h1>
         <div className="bugur-cart-steps">
