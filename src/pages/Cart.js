@@ -243,23 +243,7 @@ const Cart = ({ cartItems = [], updateQuantity, removeItem, onBack }) => {
               ))}
             </div>
 
-            <div className="bugur-cart-coupon-section">
-              <input
-                type="text"
-                placeholder="Enter coupon code"
-                className="bugur-cart-coupon-input"
-                value={couponCode}
-                onChange={(e) => setCouponCode(e.target.value)}
-                aria-label="Coupon code"
-              />
-              <button
-                className="bugur-cart-coupon-btn"
-                onClick={applyCoupon}
-                aria-label="Apply coupon"
-              >
-                Apply Coupon
-              </button>
-            </div>
+           
           </div>
 
           <div className="bugur-cart-summary-section">
