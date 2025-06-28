@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Hero.css';
 
-function Hero() {
+function Hero({ goToAbout }) {  // Accept goToAbout as prop
   const [mainBurger, setMainBurger] = useState(
     "https://png.pngtree.com/png-vector/20240829/ourmid/pngtree-delicious-and-testy-cheese-burger-png-image_13659847.png"
   );
@@ -22,7 +22,6 @@ function Hero() {
 
   return (
     <>
-      {/* Hero Section */}
       <section className="hero">
         {/* Background Layers */}
         <div className="bg-gradient"></div>
@@ -34,7 +33,8 @@ function Hero() {
           <nav>
             <ul className="nav-links">
               <li>Home</li>
-              <li>About</li>
+              <li onClick={goToAbout}>About</li>  {/* Updated */}
+
               <li>
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
