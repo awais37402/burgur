@@ -75,7 +75,7 @@ const Menu = () => {
         price: 13.99,
         spicy: false,
         vegetarian: true,
-        image: 'https://images.unsplash.com/photo-1582192763789-f20c0da1ab5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+        image: 'https://cdn.loveandlemons.com/wp-content/uploads/2020/07/black-bean-burger-1-500x375.jpg',
         rating: 4.5,
         new: false,
         featured: false

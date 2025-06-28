@@ -1,4 +1,5 @@
 /* Cart.css - Premium Burger Cart Styles - Fully Responsive */
+/* Complete CSS with enhanced back buttons and perfect responsive behavior */
 
 /* Base Styles */
 * {
@@ -10,13 +11,14 @@
 body {
   font-family: 'Montserrat', sans-serif;
   background-color: #f9f9f9;
+  line-height: 1.6;
 }
 
 /* Base Container */
 .bugur-cart-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 60px 20px 40px; /* Added top padding for fixed back button */
   color: #2d3436;
   min-height: 100vh;
   transition: all 0.3s ease;
@@ -574,12 +576,12 @@ body {
   margin-right: auto;
 }
 
-/* Back Button */
+/* Enhanced Back Button System */
 .bugur-cart-back-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background-color: #ff6b00;
+  position: fixed;
+  top: 25px;
+  left: 25px;
+  background: linear-gradient(135deg, #ff6b00, #e74c3c);
   color: white;
   border: none;
   border-radius: 50px;
@@ -587,14 +589,75 @@ body {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 10px;
+  z-index: 1000;
+  text-decoration: none;
   border: 2px solid #d45a00;
-  z-index: 100;
-  animation: bugur-fade-in 0.5s ease-out 0.3s both;
+  animation: bugur-slide-in-left 0.5s ease-out 0.3s both;
+}
+
+.bugur-cart-back-btn:hover {
+  background: linear-gradient(135deg, #e74c3c, #ff6b00);
+  transform: translateY(-2px) translateX(-3px);
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.bugur-cart-back-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+}
+
+.bugur-cart-back-btn i {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.bugur-cart-back-btn:hover i {
+  transform: translateX(-4px);
+}
+
+@keyframes bugur-slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Checkout Step Back Buttons */
+.bugur-checkout-back-btn {
+  position: relative;
+  background: none;
+  color: #636e72;
+  border: none;
+  padding: 12px 25px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+  border-radius: 8px;
+}
+
+.bugur-checkout-back-btn:hover {
+  color: #e74c3c;
+  background-color: rgba(231, 76, 60, 0.1);
+  transform: translateX(-5px);
+}
+
+.bugur-checkout-back-btn:active {
+  transform: translateX(0);
 }
 
 /* Delivery Section */
@@ -672,6 +735,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
+  gap: 20px;
 }
 
 /* Payment Section */
@@ -801,6 +865,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
+  gap: 20px;
 }
 
 /* Explore Menu Button */
@@ -839,7 +904,7 @@ body {
 /* Responsive Design */
 @media (max-width: 1200px) {
   .bugur-cart-container {
-    padding: 30px 15px;
+    padding: 50px 15px 30px;
   }
   
   .bugur-cart-title {
@@ -862,7 +927,7 @@ body {
   .bugur-cart-title {
     font-size: 2rem;
     margin-bottom: 15px;
-    padding-top: 70px; /* Increased from 60px */
+    padding-top: 80px;
   }
   
   .bugur-cart-step {
@@ -900,12 +965,11 @@ body {
   }
   
   .bugur-cart-back-btn {
-    position: fixed;
     padding: 10px 20px;
     font-size: 14px;
     top: 15px;
     left: 15px;
-    z-index: 1000;
+    gap: 6px;
   }
 
   .bugur-delivery-section,
@@ -919,6 +983,11 @@ body {
     gap: 15px;
   }
 
+  .bugur-delivery-actions,
+  .bugur-payment-actions {
+    flex-direction: column;
+  }
+
   .bugur-cart-primary-btn {
     padding: 12px 28px;
     font-size: 0.9rem;
@@ -926,9 +995,13 @@ body {
 }
 
 @media (max-width: 480px) {
+  .bugur-cart-container {
+    padding: 45px 10px 20px;
+  }
+  
   .bugur-cart-title {
     font-size: 1.8rem;
-    padding-top: 60px;
+    padding-top: 70px;
   }
   
   .bugur-cart-steps {
@@ -954,10 +1027,11 @@ body {
   }
   
   .bugur-cart-back-btn {
-    padding: 6px 12px;
+    padding: 8px 16px;
     font-size: 13px;
     top: 10px;
     left: 10px;
+    gap: 5px;
   }
   
   .bugur-cart-empty-icon {
@@ -972,15 +1046,10 @@ body {
     font-size: 1rem;
   }
 
-  .bugur-delivery-actions,
-  .bugur-payment-actions {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .bugur-delivery-actions button,
-  .bugur-payment-actions button {
+  .bugur-checkout-back-btn {
+    padding: 10px 20px;
     width: 100%;
+    justify-content: center;
   }
 
   .bugur-cart-primary-btn {
@@ -994,3 +1063,84 @@ body {
   }
 }
 
+/* iPhone Notch and Safe Area Support */
+@supports (padding: max(0px)) {
+  @media (max-width: 480px) {
+    .bugur-cart-back-btn {
+      top: max(10px, env(safe-area-inset-top));
+      left: max(10px, env(safe-area-inset-left));
+    }
+    
+    .bugur-cart-title {
+      padding-top: max(70px, calc(env(safe-area-inset-top) + 50px));
+    }
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #f5f5f5;
+  }
+  
+  .bugur-cart-items-section,
+  .bugur-cart-summary-card,
+  .bugur-delivery-section,
+  .bugur-payment-section {
+    background-color: #1e1e1e;
+    color: #f5f5f5;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  
+  .bugur-cart-item:hover,
+  .bugur-payment-option.active {
+    background-color: #252525;
+  }
+  
+  .bugur-cart-item-name,
+  .bugur-cart-summary-title,
+  .bugur-delivery-form h2,
+  .bugur-payment-methods h2 {
+    color: #ffffff;
+  }
+  
+  .bugur-cart-item-attribute,
+  .bugur-cart-payment-title,
+  .bugur-cart-security-badge {
+    color: #b0b0b0;
+  }
+  
+  .bugur-cart-coupon-input,
+  .bugur-form-group input,
+  .bugur-form-group textarea,
+  .bugur-form-group select,
+  .bugur-payment-option {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #f5f5f5;
+  }
+  
+  .bugur-cart-summary-divider,
+  .bugur-cart-items-header,
+  .bugur-cart-item {
+    border-color: #444;
+  }
+  
+  .bugur-credit-card-form,
+  .bugur-order-summary {
+    background-color: #252525;
+  }
+  
+  .bugur-cart-back-btn,
+  .bugur-cart-primary-btn,
+  .bugur-cart-checkout-btn {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  }
+  
+  .bugur-cart-back-btn:hover,
+  .bugur-cart-primary-btn:hover,
+  .bugur-cart-checkout-btn:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  }
+}
