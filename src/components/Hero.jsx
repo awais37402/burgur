@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Hero.css';
 
-function Hero({ goToAbout }) {  // Accept goToAbout as prop
+function Hero({ goToAbout }) {
   const [mainBurger, setMainBurger] = useState(
     "https://png.pngtree.com/png-vector/20240829/ourmid/pngtree-delicious-and-testy-cheese-burger-png-image_13659847.png"
   );
@@ -33,15 +33,17 @@ function Hero({ goToAbout }) {  // Accept goToAbout as prop
           <nav>
             <ul className="nav-links">
               <li>Home</li>
-              <li onClick={goToAbout}>About</li>  {/* Updated */}
+              <li onClick={goToAbout}>About</li>
 
-              <li>
+              <li className="nav-logo-container">
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
                   alt="Burger Logo"
                   className="nav-logo"
+                  loading="lazy"
                 />
               </li>
+
               <li>Menu</li>
               <li>Contact</li>
             </ul>
@@ -65,6 +67,7 @@ function Hero({ goToAbout }) {  // Accept goToAbout as prop
             src={mainBurger}
             alt="Cheesy Burger"
             className="main-burger"
+            loading="lazy"
           />
           <div className="offer-badge">
             30%<br />OFF NOW
@@ -73,21 +76,24 @@ function Hero({ goToAbout }) {  // Accept goToAbout as prop
 
         {/* Floating Ingredients */}
         <div className="floating floating-1">
-          <img 
-            src="https://png.pngtree.com/png-clipart/20230113/ourmid/pngtree-red-fresh-tomato-with-green-leaf-png-image_6561484.png" 
-            alt="Tomato" 
+          <img
+            src="https://png.pngtree.com/png-clipart/20230113/ourmid/pngtree-red-fresh-tomato-with-green-leaf-png-image_6561484.png"
+            alt="Tomato"
+            loading="lazy"
           />
         </div>
         <div className="floating floating-2">
-          <img 
-            src="https://www.pngarts.com/files/3/Onion-PNG-Photo.png" 
-            alt="Onion" 
+          <img
+            src="https://www.pngarts.com/files/3/Onion-PNG-Photo.png"
+            alt="Onion"
+            loading="lazy"
           />
         </div>
         <div className="floating floating-3">
-          <img 
-            src="https://purepng.com/public/uploads/large/purepng.com-lettuce-leafvegetables-salad-salad-leaf-leaf-lettuce-941524727009ncuov.png" 
-            alt="Lettuce" 
+          <img
+            src="https://purepng.com/public/uploads/large/purepng.com-lettuce-leafvegetables-salad-salad-leaf-leaf-lettuce-941524727009ncuov.png"
+            alt="Lettuce"
+            loading="lazy"
           />
         </div>
 
@@ -103,6 +109,7 @@ function Hero({ goToAbout }) {  // Accept goToAbout as prop
               alt={`Burger ${index + 1}`}
               onClick={() => handleThumbnailClick(imgSrc)}
               className={mainBurger === imgSrc ? 'active-thumbnail' : ''}
+              loading="lazy"
             />
           ))}
         </div>
