@@ -621,6 +621,205 @@
   display: inline-flex;
 }
 
+/* Delivery Section */
+.bugur-delivery-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  animation: bugur-fade-in 0.6s ease-out;
+}
+
+.bugur-delivery-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.bugur-delivery-form h2 {
+  font-size: 1.8rem;
+  color: #2d3436;
+  margin-bottom: 10px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.bugur-delivery-form h2:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: #e74c3c;
+  border-radius: 3px;
+}
+
+.bugur-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bugur-form-group label {
+  font-weight: 600;
+  color: #2d3436;
+  font-size: 0.95rem;
+}
+
+.bugur-form-group input,
+.bugur-form-group textarea {
+  padding: 12px 15px;
+  border: 1px solid #dfe6e9;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.bugur-form-group input:focus,
+.bugur-form-group textarea:focus {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+  outline: none;
+}
+
+.bugur-form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.bugur-delivery-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+/* Payment Section */
+.bugur-payment-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  animation: bugur-fade-in 0.6s ease-out;
+}
+
+.bugur-payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.bugur-payment-methods h2 {
+  font-size: 1.8rem;
+  color: #2d3436;
+  margin-bottom: 10px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.bugur-payment-methods h2:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: #e74c3c;
+  border-radius: 3px;
+}
+
+.bugur-payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.bugur-payment-option {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border: 1px solid #dfe6e9;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.bugur-payment-option:hover {
+  border-color: #e74c3c;
+}
+
+.bugur-payment-option.active {
+  border-color: #e74c3c;
+  background-color: rgba(231, 76, 60, 0.05);
+}
+
+.bugur-payment-option input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.bugur-payment-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.bugur-payment-icon {
+  font-size: 1.5rem;
+}
+
+.bugur-credit-card-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.bugur-form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.bugur-form-row .bugur-form-group {
+  flex: 1;
+}
+
+.bugur-order-summary {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.bugur-summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.bugur-summary-row.total {
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-bottom: none;
+  margin-top: 10px;
+}
+
+.bugur-payment-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .bugur-cart-container {
@@ -687,6 +886,16 @@
     padding: 10px 20px;
     font-size: 14px;
   }
+
+  .bugur-delivery-section,
+  .bugur-payment-section {
+    padding: 20px;
+  }
+
+  .bugur-form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -703,6 +912,7 @@
   .bugur-cart-step {
     margin: 0 5px;
     padding: 6px 12px;
+  font-size: 0.8rem;
   }
   
   .bugur-cart-items-section,
@@ -733,6 +943,17 @@
   
   .bugur-cart-empty-state p {
     font-size: 1rem;
+  }
+
+  .bugur-delivery-actions,
+  .bugur-payment-actions {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .bugur-delivery-actions button,
+  .bugur-payment-actions button {
+    width: 100%;
   }
 }
 

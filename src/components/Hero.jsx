@@ -1,23 +1,58 @@
 import React, { useState } from 'react';
 import './Hero.css';
 
-function Hero({ goToAbout }) {
+function Hero({ goToAbout, addToCart }) {
   const [mainBurger, setMainBurger] = useState(
     "https://png.pngtree.com/png-vector/20240829/ourmid/pngtree-delicious-and-testy-cheese-burger-png-image_13659847.png"
   );
 
   const burgerImages = [
-    "https://png.pngtree.com/png-vector/20240829/ourmid/pngtree-delicious-and-testy-cheese-burger-png-image_13659847.png",
-    "https://png.pngtree.com/png-vector/20231227/ourmid/pngtree-flying-burgers-png-image_11384226.png",
-    "https://file.aiquickdraw.com/imgcompressed/img/compressed_0ebb6b0e1c39369debcfd0b2522b526c.webp",
-    "https://burger25.com/wp-content/uploads/2022/08/Bacon-Egg-N-Cheese-Burger.png",
-    "https://static.vecteezy.com/system/resources/previews/035/270/756/non_2x/ai-generated-tasty-burger-on-transparent-background-ai-generated-free-png.png"
+    {
+      url: "https://png.pngtree.com/png-vector/20240829/ourmid/pngtree-delicious-and-testy-cheese-burger-png-image_13659847.png",
+      name: "Classic Cheeseburger",
+      price: 8.99
+    },
+    {
+      url: "https://png.pngtree.com/png-vector/20231227/ourmid/pngtree-flying-burgers-png-image_11384226.png",
+      name: "Double Patty Burger",
+      price: 10.99
+    },
+    {
+      url: "https://file.aiquickdraw.com/imgcompressed/img/compressed_0ebb6b0e1c39369debcfd0b2522b526c.webp",
+      name: "Bacon Burger",
+      price: 11.99
+    },
+    {
+      url: "https://burger25.com/wp-content/uploads/2022/08/Bacon-Egg-N-Cheese-Burger.png",
+      name: "Bacon Egg Burger",
+      price: 12.99
+    },
+    {
+      url: "https://static.vecteezy.com/system/resources/previews/035/270/756/non_2x/ai-generated-tasty-burger-on-transparent-background-ai-generated-free-png.png",
+      name: "Gourmet Burger",
+      price: 13.99
+    }
   ];
 
   const burgerHashtags = "CheesyBurger   JuicyLayers   MeltedGoodness   BurgerLovers   GrillGoals   CheeseOverload   SatisfyYourCravings";
 
   const handleThumbnailClick = (imgSrc) => {
     setMainBurger(imgSrc);
+  };
+
+  const handleOrderNow = () => {
+    const selectedBurger = burgerImages.find(burger => burger.url === mainBurger);
+    if (selectedBurger) {
+      addToCart({
+        id: Date.now(),
+        name: selectedBurger.name,
+        price: selectedBurger.price,
+        image: selectedBurger.url,
+        size: "Regular",
+        color: "Classic",
+        quantity: 1
+      });
+    }
   };
 
   return (
@@ -98,17 +133,17 @@ function Hero({ goToAbout }) {
         </div>
 
         {/* Order Button */}
-        <button className="order-btn">ORDER NOW</button>
+        <button className="order-btn" onClick={handleOrderNow}>ORDER NOW</button>
 
         {/* Burger Thumbnails */}
         <div className="burger-thumbnails">
-          {burgerImages.map((imgSrc, index) => (
+          {burgerImages.map((burger, index) => (
             <img
               key={index}
-              src={imgSrc}
+              src={burger.url}
               alt={`Burger ${index + 1}`}
-              onClick={() => handleThumbnailClick(imgSrc)}
-              className={mainBurger === imgSrc ? 'active-thumbnail' : ''}
+              onClick={() => handleThumbnailClick(burger.url)}
+              className={mainBurger === burger.url ? 'active-thumbnail' : ''}
               loading="lazy"
             />
           ))}
