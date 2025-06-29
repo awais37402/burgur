@@ -92,12 +92,12 @@ function Hero({ goToAbout, addToCart }) {
               <li>Home</li>
               <li onClick={goToAbout}>About</li>
               <li className="nav-logo-container">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/5787/5787016.png"
-                  alt="Burger Logo"
-                  className="nav-logo"
-                  loading="lazy"
-                />
+               <img
+  src="https://fonts.gstatic.com/s/i/materialiconsoutlined/fastfood/v11/24px.svg"
+  alt="Fast Food Icon"
+  className="nav-logo"
+  width="24"
+/>
               </li>
               <li>Menu</li>
               <li>Contact</li>

@@ -9,7 +9,7 @@ import OrderProcess from './components/OrderProcess';
 import Footer from './components/Footer';
 import Cart from './pages/Cart';
 import About from './pages/About';
-import MenuItemDetail from './components/MenuItemDetail';
+import MenuItemDetail from './components/MenuItemDetail'; // Correct file name
 import SplashScreen from './components/SplashScreen';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
   const [showSplash, setShowSplash] = useState(true);
 
-  // Load cart items from localStorage on initial render
+  // Load cart from localStorage on initial render
   useEffect(() => {
     const savedCart = localStorage.getItem('burgerCart');
     if (savedCart) {
@@ -28,7 +28,7 @@ function App() {
     }
   }, []);
 
-  // Save cart items to localStorage whenever they change
+  // Save cart to localStorage when cartItems change
   useEffect(() => {
     localStorage.setItem('burgerCart', JSON.stringify(cartItems));
   }, [cartItems]);
@@ -39,11 +39,11 @@ function App() {
       if (existingItem) {
         return prevItems.map(cartItem =>
           cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
             : cartItem
         );
       }
-      return [...prevItems, { ...item, quantity: 1 }];
+      return [...prevItems, { ...item, quantity: item.quantity }];
     });
   };
 
@@ -62,6 +62,8 @@ function App() {
   const handleMenuItemClick = (item) => {
     setSelectedMenuItem(item);
     setShowMenuItemDetail(true);
+    setShowCartPage(false);
+    setShowAboutPage(false);
   };
 
   const handleBackFromDetail = () => {
@@ -88,7 +90,7 @@ function App() {
       {showSplash ? (
         <SplashScreen onFinish={() => setShowSplash(false)} />
       ) : showCartPage ? (
-        <Cart 
+        <Cart
           cartItems={cartItems}
           updateQuantity={updateCartItemQuantity}
           removeItem={removeFromCart}
@@ -97,20 +99,20 @@ function App() {
       ) : showAboutPage ? (
         <About onBack={toggleAboutPage} />
       ) : showMenuItemDetail ? (
-        <MenuItemDetail 
-          item={selectedMenuItem} 
-          onBack={handleBackFromDetail}
+        <MenuItemDetail
+          item={selectedMenuItem}
           addToCart={addToCart}
+          onBack={handleBackFromDetail}
         />
       ) : (
         <>
-          <Hero 
+          <Hero
             goToAbout={toggleAboutPage}
             addToCart={addToCart}
             showCart={toggleCartPage}
           />
-          <Menu 
-            addToCart={addToCart} 
+          <Menu
+            addToCart={addToCart}
             onItemClick={handleMenuItemClick}
           />
           <BurgerOffers addToCart={addToCart} />
@@ -118,7 +120,7 @@ function App() {
           <BurgerDeliveryLocations />
           <OrderProcess />
           <Footer />
-          
+
           <div className="floating-cart" onClick={toggleCartPage}>
             <span className="cart-icon">🛒</span>
             {cartItemsCount > 0 && (

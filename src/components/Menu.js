@@ -120,7 +120,7 @@ const Menu = ({ addToCart, onItemClick }) => {
         price: 6.99,
         spicy: false,
         vegetarian: true,
-        image: 'https://images.unsplash.com/photo-1582515073490-39981397c445?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+        image: 'https://www.allrecipes.com/thmb/7UlHGwtX6EdCC7HsrsRfQAKL7-w=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/AR-238377-fantastic-onion-ring-batter-ddmfs-4x3-Beauty-66becffd44fc4693b4ecb371ed446181.jpg',
         rating: 4.4,
         new: false,
         featured: false,
