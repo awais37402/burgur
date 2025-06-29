@@ -61,12 +61,16 @@ const Cart = ({ cartItems = [], updateQuantity, removeItem, onBack }) => {
     // Here you would typically send the order to your backend
   };
 
-  // Continue Shopping handler
-  const handleContinueShopping = () => {
-    if (onBack) {
-      onBack();
+  // Handle back navigation
+  const handleBack = () => {
+    if (activeStep === 'cart') {
+      if (onBack) {
+        onBack();
+      } else {
+        window.history.back();
+      }
     } else {
-      window.history.back();
+      goBackToPreviousStep();
     }
   };
 
@@ -116,7 +120,7 @@ const Cart = ({ cartItems = [], updateQuantity, removeItem, onBack }) => {
     return (
       <div className="bugur-cart-empty-state">
         <button 
-          onClick={handleContinueShopping}
+          onClick={handleBack}
           className="bugur-cart-back-btn"
         >
           ← Continue Shopping
@@ -126,7 +130,7 @@ const Cart = ({ cartItems = [], updateQuantity, removeItem, onBack }) => {
         <p>Discover our delicious burgers and add some to your cart</p>
         <button 
           className="bugur-cart-primary-btn"
-          onClick={handleContinueShopping}
+          onClick={handleBack}
         >
           Explore Menu
         </button>
@@ -136,15 +140,13 @@ const Cart = ({ cartItems = [], updateQuantity, removeItem, onBack }) => {
 
   return (
     <div className={`bugur-cart-container ${isAnimating ? 'bugur-cart-animate' : ''}`}>
-      {/* Back Button - Only shown for cart step */}
-      {activeStep === 'cart' && (
-        <button 
-          onClick={handleContinueShopping}
-          className="bugur-cart-back-btn"
-        >
-          ← Continue Shopping
-        </button>
-      )}
+      {/* Back Button - Shown on all steps */}
+      <button 
+        onClick={handleBack}
+        className="bugur-cart-back-btn"
+      >
+        ← {activeStep === 'cart' ? 'Continue Shopping' : 'Back'}
+      </button>
 
       <div className="bugur-cart-header">
         <h1 className="bugur-cart-title">
@@ -242,8 +244,6 @@ const Cart = ({ cartItems = [], updateQuantity, removeItem, onBack }) => {
                 </div>
               ))}
             </div>
-
-           
           </div>
 
           <div className="bugur-cart-summary-section">
@@ -357,13 +357,6 @@ const Cart = ({ cartItems = [], updateQuantity, removeItem, onBack }) => {
             </div>
 
             <div className="bugur-delivery-actions">
-              <button
-                className="bugur-cart-back-btn"
-                onClick={goBackToPreviousStep}
-                type="button"
-              >
-                ← Back to Cart
-              </button>
               <button
                 className="bugur-cart-checkout-btn"
                 onClick={proceedToNextStep}
@@ -510,13 +503,6 @@ const Cart = ({ cartItems = [], updateQuantity, removeItem, onBack }) => {
             </div>
 
             <div className="bugur-payment-actions">
-              <button
-                className="bugur-cart-back-btn"
-                onClick={goBackToPreviousStep}
-                type="button"
-              >
-                ← Back to Delivery
-              </button>
               <button
                 className="bugur-cart-checkout-btn"
                 onClick={handleCheckout}

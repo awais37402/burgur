@@ -9,11 +9,16 @@ import OrderProcess from './components/OrderProcess';
 import Footer from './components/Footer';
 import Cart from './pages/Cart';
 import About from './pages/About';
+import MenuItemDetail from './components/MenuItemDetail';
+import SplashScreen from './components/SplashScreen';
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
   const [showCartPage, setShowCartPage] = useState(false);
   const [showAboutPage, setShowAboutPage] = useState(false);
+  const [showMenuItemDetail, setShowMenuItemDetail] = useState(false);
+  const [selectedMenuItem, setSelectedMenuItem] = useState(null);
+  const [showSplash, setShowSplash] = useState(true);
 
   // Load cart items from localStorage on initial render
   useEffect(() => {
@@ -30,11 +35,7 @@ function App() {
 
   const addToCart = (item) => {
     setCartItems(prevItems => {
-      // Check if item already exists in cart
-      const existingItem = prevItems.find(
-        cartItem => cartItem.id === item.id
-      );
-      
+      const existingItem = prevItems.find(cartItem => cartItem.id === item.id);
       if (existingItem) {
         return prevItems.map(cartItem =>
           cartItem.id === item.id
@@ -42,39 +43,51 @@ function App() {
             : cartItem
         );
       }
-      return [...prevItems, item];
+      return [...prevItems, { ...item, quantity: 1 }];
     });
   };
 
-  const updateCartItemQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
-    
+  const updateCartItemQuantity = (itemId, newQuantity) => {
     setCartItems(prevItems =>
       prevItems.map(item =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
+        item.id === itemId ? { ...item, quantity: newQuantity } : item
       )
     );
   };
 
-  const removeFromCart = (id) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== id));
+  const removeFromCart = (itemId) => {
+    setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
+  };
+
+  const handleMenuItemClick = (item) => {
+    setSelectedMenuItem(item);
+    setShowMenuItemDetail(true);
+  };
+
+  const handleBackFromDetail = () => {
+    setShowMenuItemDetail(false);
+    setSelectedMenuItem(null);
   };
 
   const toggleCartPage = () => {
     setShowCartPage(!showCartPage);
     setShowAboutPage(false);
+    setShowMenuItemDetail(false);
   };
 
   const toggleAboutPage = () => {
     setShowAboutPage(!showAboutPage);
     setShowCartPage(false);
+    setShowMenuItemDetail(false);
   };
 
   const cartItemsCount = cartItems.reduce((count, item) => count + item.quantity, 0);
 
   return (
     <>
-      {showCartPage ? (
+      {showSplash ? (
+        <SplashScreen onFinish={() => setShowSplash(false)} />
+      ) : showCartPage ? (
         <Cart 
           cartItems={cartItems}
           updateQuantity={updateCartItemQuantity}
@@ -83,6 +96,12 @@ function App() {
         />
       ) : showAboutPage ? (
         <About onBack={toggleAboutPage} />
+      ) : showMenuItemDetail ? (
+        <MenuItemDetail 
+          item={selectedMenuItem} 
+          onBack={handleBackFromDetail}
+          addToCart={addToCart}
+        />
       ) : (
         <>
           <Hero 
@@ -90,14 +109,16 @@ function App() {
             addToCart={addToCart}
             showCart={toggleCartPage}
           />
-          <Menu addToCart={addToCart} />
+          <Menu 
+            addToCart={addToCart} 
+            onItemClick={handleMenuItemClick}
+          />
           <BurgerOffers addToCart={addToCart} />
           <BurgerTestimonialsSlider />
           <BurgerDeliveryLocations />
           <OrderProcess />
           <Footer />
           
-          {/* Floating Cart Icon */}
           <div className="floating-cart" onClick={toggleCartPage}>
             <span className="cart-icon">🛒</span>
             {cartItemsCount > 0 && (

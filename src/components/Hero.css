@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap');
 :root {
   --primary: #FF6B00; /* Vibrant burger orange */
   --primary-light: #FF9E4F;
@@ -27,7 +28,6 @@
   overflow: hidden;
   background: linear-gradient(135deg, #f12711 0%, #f5af19 100%);
   box-sizing: border-box;
-  
 }
 
 /* Content Wrapper for better control */
@@ -79,7 +79,6 @@
   }
 }
 
-
 /* Background Layers */
 .bg-gradient {
   position: absolute;
@@ -129,7 +128,6 @@
   transition: var(--transition);
   margin-top: -40px; /* You can adjust this value as needed */
 }
-
 
 .nav-links li {
   font-weight: 600;
@@ -262,7 +260,6 @@
   box-shadow: var(--shadow);
   animation: pulse 2s infinite, bounce 3s infinite;
   transform-origin: center;
- 
 }
 
 @keyframes bounce {
@@ -332,7 +329,6 @@
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-
 
 .order-btn::before {
   content: '';
@@ -505,5 +501,4 @@
     transform: scale(1);
     opacity: 1;
   }
-  
 }

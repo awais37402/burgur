@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './Menu.css';
 
-const Menu = () => {
+const Menu = ({ addToCart, onItemClick }) => {
   const [activeCategory, setActiveCategory] = useState('burgers');
-  const [cartItems, setCartItems] = useState([]);
-  const [isCartAnimating, setIsCartAnimating] = useState(false);
 
   const menuItems = {
     burgers: [
@@ -18,7 +16,10 @@ const Menu = () => {
         image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.7,
         new: false,
-        featured: true
+        featured: true,
+        details: 'Our signature Classic Cheeseburger features a juicy 1/3 lb Angus beef patty grilled to perfection, topped with aged cheddar cheese, crisp lettuce, ripe tomatoes, and our special house sauce, all served on a toasted brioche bun. Comes with a side of pickles and your choice of fries or salad.',
+        ingredients: ['Angus beef patty', 'Aged cheddar', 'Lettuce', 'Tomato', 'House sauce', 'Brioche bun'],
+        calories: 780
       },
       {
         id: 2,
@@ -30,7 +31,10 @@ const Menu = () => {
         image: 'https://images.unsplash.com/photo-1571091655789-405eb7a3a3a8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.9,
         new: true,
-        featured: true
+        featured: true,
+        details: 'An exquisite blend of premium Wagyu beef with luxurious black truffle aioli, wild forest mushrooms, and crispy parmesan shards. Served on an artisan brioche bun with a side of truffle-infused fries.',
+        ingredients: ['Wagyu beef patty', 'Black truffle aioli', 'Wild mushrooms', 'Parmesan crisp', 'Arugula', 'Brioche bun'],
+        calories: 920
       },
       {
         id: 3,
@@ -42,7 +46,10 @@ const Menu = () => {
         image: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.8,
         new: false,
-        featured: false
+        featured: false,
+        details: 'Not for the faint-hearted! Two juicy beef patties smothered in molten ghost pepper cheese, topped with fresh jalapeños and our signature chipotle mayo. Served on a spicy pepper bun that adds an extra kick.',
+        ingredients: ['Double beef patties', 'Ghost pepper cheese', 'Jalapeños', 'Chipotle mayo', 'Pepper jack cheese', 'Spicy bun'],
+        calories: 950
       },
       {
         id: 4,
@@ -54,7 +61,10 @@ const Menu = () => {
         image: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.6,
         new: false,
-        featured: false
+        featured: false,
+        details: 'A fresh take on the classic burger featuring grass-fed beef topped with creamy smashed avocado, heirloom tomatoes, alfalfa sprouts, and our garlic aioli. Served on a whole wheat bun for a healthier option.',
+        ingredients: ['Grass-fed beef', 'Smashed avocado', 'Heirloom tomato', 'Alfalfa sprouts', 'Garlic aioli', 'Whole wheat bun'],
+        calories: 720
       },
       {
         id: 5,
@@ -66,7 +76,10 @@ const Menu = () => {
         image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.7,
         new: true,
-        featured: false
+        featured: false,
+        details: 'A flavor explosion featuring our special dry-aged beef patty topped with sautéed shiitake mushrooms, caramelized onions, and a rich miso glaze. Finished with Swiss cheese on a pretzel bun.',
+        ingredients: ['Dry-aged beef', 'Shiitake mushrooms', 'Caramelized onions', 'Miso glaze', 'Swiss cheese', 'Pretzel bun'],
+        calories: 850
       },
       {
         id: 6,
@@ -78,7 +91,10 @@ const Menu = () => {
         image: 'https://cdn.loveandlemons.com/wp-content/uploads/2020/07/black-bean-burger-1-500x375.jpg',
         rating: 4.5,
         new: false,
-        featured: false
+        featured: false,
+        details: 'Our house specialty vegetarian option features a hearty black bean patty made from scratch, topped with fresh avocado slices, roasted red peppers, and a smoky chipotle mayo. Served on a multigrain bun.',
+        ingredients: ['Black bean patty', 'Avocado', 'Roasted peppers', 'Chipotle mayo', 'Spinach', 'Multigrain bun'],
+        calories: 620
       }
     ],
     sides: [
@@ -92,7 +108,10 @@ const Menu = () => {
         image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.6,
         new: false,
-        featured: false
+        featured: false,
+        details: 'Our famous hand-cut fries tossed in white truffle oil and topped with freshly grated parmesan and parsley. Served with our signature truffle aioli dipping sauce.',
+        ingredients: ['Hand-cut potatoes', 'White truffle oil', 'Parmesan cheese', 'Parsley', 'Truffle aioli'],
+        calories: 420
       },
       {
         id: 8,
@@ -104,7 +123,10 @@ const Menu = () => {
         image: 'https://images.unsplash.com/photo-1582515073490-39981397c445?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.4,
         new: false,
-        featured: false
+        featured: false,
+        details: 'Thick-cut Vidalia onions coated in our special beer batter and fried to golden perfection. Served with a smoky paprika aioli for dipping.',
+        ingredients: ['Vidalia onions', 'Beer batter', 'Smoked paprika aioli'],
+        calories: 380
       }
     ],
     drinks: [
@@ -118,21 +140,12 @@ const Menu = () => {
         image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         rating: 4.3,
         new: false,
-        featured: false
+        featured: false,
+        details: 'Freshly squeezed organic lemons sweetened with just the right amount of cane sugar. Choose between our lavender-infused or ginger-spiced variations for a unique twist.',
+        ingredients: ['Organic lemons', 'Cane sugar', 'Lavender or ginger', 'Filtered water'],
+        calories: 150
       }
     ]
-  };
-
-  const addToCart = (item) => {
-    setCartItems([...cartItems, item]);
-    setIsCartAnimating(true);
-    setTimeout(() => setIsCartAnimating(false), 1000);
-    
-    const button = document.getElementById(`add-btn-${item.id}`);
-    if (button) {
-      button.classList.add('added');
-      setTimeout(() => button.classList.remove('added'), 1000);
-    }
   };
 
   useEffect(() => {
@@ -142,6 +155,10 @@ const Menu = () => {
       item.classList.add('animate-pop');
     });
   }, [activeCategory]);
+
+  const handleItemClick = (item) => {
+    onItemClick(item);
+  };
 
   return (
     <div className="menu-container">
@@ -175,7 +192,11 @@ const Menu = () => {
         </div>
         <div className="items-grid">
           {menuItems[activeCategory].map(item => (
-            <div key={item.id} className={`menu-item ${item.featured ? 'featured' : ''}`}>
+            <div 
+              key={item.id} 
+              className={`menu-item ${item.featured ? 'featured' : ''}`}
+              onClick={() => handleItemClick(item)}
+            >
               <div className="item-image-container">
                 <img src={item.image} alt={item.name} className="item-image" />
                 <div className="item-badges">
@@ -199,26 +220,12 @@ const Menu = () => {
                 <p className="item-description">{item.description}</p>
                 <div className="item-footer">
                   <span className="price">${item.price.toFixed(2)}</span>
-                  <button 
-                    id={`add-btn-${item.id}`}
-                    className="add-to-cart"
-                    onClick={() => addToCart(item)}
-                  >
-                    <span className="add-text">ADD TO CART</span>
-                    <span className="added-text">ADDED!</span>
-                    <span className="cart-icon">+</span>
-                  </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </section>
-
-      <div className={`cart-indicator ${isCartAnimating ? 'animate' : ''} ${cartItems.length > 0 ? 'visible' : ''}`}>
-        <span className="cart-count">{cartItems.length}</span>
-        <div className="cart-icon"></div>
-      </div>
     </div>
   );
 };

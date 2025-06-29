@@ -1,4 +1,4 @@
-/* About.css - Complete Styling */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap');
 
 /* Base Styles */
 .about-page {
@@ -6,6 +6,12 @@
   color: #333;
   overflow-x: hidden;
   position: relative;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 /* Hero Section */
@@ -23,22 +29,18 @@
   transition: all 0.8s ease-out;
 }
 
-.about-hero.loaded {
+.about-hero.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
 .hero-content h1 {
   color: #fff;
+  font-family: 'Playfair Display', serif;
   font-size: 5rem;
   margin-bottom: 1rem;
   text-transform: uppercase;
   letter-spacing: 3px;
-  transition: all 0.3s ease;
-}
-
-.hero-content h1.scrolled {
-  font-size: 3rem;
 }
 
 .hero-content p {
@@ -83,80 +85,24 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-.back-button:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.back-button::before {
-  content: "←";
-  display: inline-block;
-  transition: transform 0.3s ease;
-}
-
-.back-button:hover::before {
-  transform: translateX(-3px);
-}
-
-/* Tabs Navigation */
-.about-tabs {
-  display: flex;
-  justify-content: center;
-  margin: 2rem 0;
-  border-bottom: 1px solid #eee;
-}
-
-.tab-button {
-  padding: 1rem 2rem;
-  margin: 0 1rem;
-  background: none;
-  border: none;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #777;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.tab-button:hover {
-  color: #d35400;
-}
-
-.tab-button.active {
-  color: #d35400;
-}
-
-.tab-button.active::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background-color: #d35400;
-}
-
-/* Tab Content */
-.tab-content {
-  padding: 3rem 10%;
-  min-height: 50vh;
-}
-
-.fade-in {
-  animation: fadeInContent 0.8s ease-out;
-}
-
-@keyframes fadeInContent {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 /* Story Section */
 .story-section {
+  padding: 6rem 0;
+  background-color: #fff;
+}
+
+.story-content {
   display: flex;
   align-items: center;
   gap: 5rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+
+.story-content.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .story-text {
@@ -164,12 +110,10 @@
 }
 
 .story-text h2 {
+  font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
   color: #d35400;
-  opacity: 0;
-  transform: translateY(30px);
-  animation: slideIn 0.6s forwards 0.3s;
 }
 
 .story-text p {
@@ -178,29 +122,23 @@
   margin-bottom: 1.5rem;
 }
 
-.story-text p:nth-child(2) {
-  opacity: 0;
-  animation: fadeIn 0.6s forwards 0.5s;
-}
-
-.story-text p:nth-child(3) {
-  opacity: 0;
-  animation: fadeIn 0.6s forwards 0.7s;
-}
-
 .story-image {
   flex: 1;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 15px 30px rgba(0,0,0,0.1);
   transition: transform 0.3s ease;
-  opacity: 0;
-  transform: scale(0.9);
-  animation: scaleIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.4s;
+  transform: scale(0.95);
 }
 
-.story-image:hover {
-  transform: scale(1.03);
+.story-content.visible .story-image {
+  transform: scale(1);
+  animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.03); }
 }
 
 .story-image img {
@@ -211,9 +149,20 @@
 
 /* Philosophy Section */
 .philosophy-section {
+  padding: 6rem 0;
+  background-color: #f9f9f9;
+}
+
+.philosophy-content {
   display: flex;
   align-items: center;
   gap: 5rem;
+  opacity: 0;
+  transition: all 0.6s ease-out;
+}
+
+.philosophy-content.visible {
+  opacity: 1;
 }
 
 .philosophy-image {
@@ -221,9 +170,12 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-  opacity: 0;
   transform: translateX(-50px);
-  animation: slideInLeft 0.6s forwards 0.4s;
+  transition: transform 0.6s ease-out 0.2s;
+}
+
+.philosophy-content.visible .philosophy-image {
+  transform: translateX(0);
 }
 
 .philosophy-image img {
@@ -237,12 +189,10 @@
 }
 
 .philosophy-text h2 {
+  font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
   color: #d35400;
-  opacity: 0;
-  transform: translateY(30px);
-  animation: slideIn 0.6s forwards 0.3s;
 }
 
 .philosophy-text p, .philosophy-text li {
@@ -261,39 +211,59 @@
   position: relative;
   opacity: 0;
   transform: translateX(-20px);
+  transition: all 0.4s ease;
 }
 
-.philosophy-text li:nth-child(1) {
-  animation: fadeInLeft 0.5s forwards 0.3s;
+.philosophy-content.visible .philosophy-text li {
+  opacity: 1;
+  transform: translateX(0);
 }
-.philosophy-text li:nth-child(2) {
-  animation: fadeInLeft 0.5s forwards 0.4s;
+
+.philosophy-content.visible .philosophy-text li:nth-child(1) {
+  transition-delay: 0.3s;
 }
-.philosophy-text li:nth-child(3) {
-  animation: fadeInLeft 0.5s forwards 0.5s;
+.philosophy-content.visible .philosophy-text li:nth-child(2) {
+  transition-delay: 0.4s;
 }
-.philosophy-text li:nth-child(4) {
-  animation: fadeInLeft 0.5s forwards 0.6s;
+.philosophy-content.visible .philosophy-text li:nth-child(3) {
+  transition-delay: 0.5s;
+}
+.philosophy-content.visible .philosophy-text li:nth-child(4) {
+  transition-delay: 0.6s;
 }
 
 /* Team Section */
 .team-section {
+  padding: 6rem 0;
+  background-color: #fff;
   text-align: center;
 }
 
 .team-section h2 {
+  font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
   margin-bottom: 3rem;
   color: #d35400;
   opacity: 0;
   transform: translateY(30px);
-  animation: slideIn 0.6s forwards 0.3s;
+  transition: all 0.6s ease-out;
+}
+
+.team-section h2.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .team-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  opacity: 0;
+  transition: all 0.6s ease-out;
+}
+
+.team-grid.visible {
+  opacity: 1;
 }
 
 .team-card {
@@ -301,9 +271,24 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  opacity: 0;
+  transition: all 0.3s ease;
   transform: translateY(30px);
+  opacity: 0;
+}
+
+.team-grid.visible .team-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.team-grid.visible .team-card:nth-child(1) {
+  transition-delay: 0.2s;
+}
+.team-grid.visible .team-card:nth-child(2) {
+  transition-delay: 0.4s;
+}
+.team-grid.visible .team-card:nth-child(3) {
+  transition-delay: 0.6s;
 }
 
 .team-card:hover {
@@ -311,20 +296,15 @@
   box-shadow: 0 15px 30px rgba(0,0,0,0.2);
 }
 
-.team-card:nth-child(1) {
-  animation: fadeInUp 0.6s forwards 0.3s;
-}
-.team-card:nth-child(2) {
-  animation: fadeInUp 0.6s forwards 0.5s;
-}
-.team-card:nth-child(3) {
-  animation: fadeInUp 0.6s forwards 0.7s;
-}
-
 .team-image {
   height: 300px;
   background-size: cover;
   background-position: center;
+  transition: transform 0.5s ease;
+}
+
+.team-card:hover .team-image {
+  transform: scale(1.05);
 }
 
 .team-card h3 {
@@ -348,36 +328,55 @@
 .stats-section {
   background-color: #d35400;
   color: white;
-  padding: 4rem 10%;
+  padding: 4rem 0;
+}
+
+.stats-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
   text-align: center;
+  opacity: 0;
+  transition: all 0.6s ease-out;
+}
+
+.stats-container.visible {
+  opacity: 1;
 }
 
 .stat-item {
   padding: 1rem;
-  opacity: 0;
   transform: scale(0.8);
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.stat-item:nth-child(1) {
-  animation: fadeInScale 0.6s forwards 0.3s;
+.stats-container.visible .stat-item {
+  transform: scale(1);
 }
-.stat-item:nth-child(2) {
-  animation: fadeInScale 0.6s forwards 0.4s;
+
+.stats-container.visible .stat-item:nth-child(1) {
+  transition-delay: 0.1s;
 }
-.stat-item:nth-child(3) {
-  animation: fadeInScale 0.6s forwards 0.5s;
+.stats-container.visible .stat-item:nth-child(2) {
+  transition-delay: 0.2s;
 }
-.stat-item:nth-child(4) {
-  animation: fadeInScale 0.6s forwards 0.6s;
+.stats-container.visible .stat-item:nth-child(3) {
+  transition-delay: 0.3s;
+}
+.stats-container.visible .stat-item:nth-child(4) {
+  transition-delay: 0.4s;
 }
 
 .stat-number {
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover .stat-number {
+  transform: scale(1.1);
+  color: #ffcc00;
 }
 
 .stat-label {
@@ -385,35 +384,6 @@
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 1px;
-}
-
-/* Animation Keyframes */
-@keyframes slideIn {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-
-@keyframes scaleIn {
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes slideInLeft {
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes fadeInLeft {
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes fadeInUp {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInScale {
-  to { opacity: 1; transform: scale(1); }
 }
 
 /* Responsive Design */
@@ -426,22 +396,12 @@
     font-size: 1.2rem;
   }
   
-  .about-tabs {
-    flex-wrap: wrap;
-  }
-  
-  .tab-button {
-    padding: 0.8rem 1rem;
-    margin: 0.5rem;
-    font-size: 1rem;
-  }
-  
-  .story-section, .philosophy-section {
+  .story-content, .philosophy-content {
     flex-direction: column;
     gap: 2rem;
   }
   
-  .stats-section {
+  .stats-container {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -458,7 +418,7 @@
     font-size: 2.2rem;
   }
   
-  .stats-section {
+  .stats-container {
     grid-template-columns: 1fr;
   }
   

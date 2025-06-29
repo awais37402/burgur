@@ -2,47 +2,55 @@ import React, { useState, useEffect } from 'react';
 import './About.css';
 
 const About = ({ onBack }) => {
-  const [activeTab, setActiveTab] = useState('story');
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [animate, setAnimate] = useState(false);
   const [heroLoaded, setHeroLoaded] = useState(false);
+  const [isVisible, setIsVisible] = useState({
+    hero: false,
+    story: false,
+    philosophy: false,
+    team: false,
+    stats: false
+  });
 
   // Placeholder image URLs
   const images = {
-    team1: 'https://images.unsplash.com/photo-1551218808-94e220e084d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
+    team1: 'https://cubemayfair.com/_images/2022/10/600/owner-chef-with-sushi-expertise.jpg',
     team2: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
-    team3: 'https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
+    team3: 'https://www.howcast.com/.image/t_share/MTU5NzA0NjU0NzYzNzI5OTQw/zb-how-to-hire-a-restaurant-chef-promo-image.jpg',
     burgerIcon: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
     restaurant: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
     ingredients: 'https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollPosition(window.scrollY);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    setAnimate(true);
-    const timer = setTimeout(() => setAnimate(false), 1000);
-    return () => clearTimeout(timer);
-  }, [activeTab]);
-
-  useEffect(() => {
     // Simulate hero image loading
-    const timer = setTimeout(() => setHeroLoaded(true), 300);
-    return () => clearTimeout(timer);
-  }, []);
+    const timer = setTimeout(() => {
+      setHeroLoaded(true);
+      setIsVisible(prev => ({...prev, hero: true}));
+    }, 300);
 
-  const tabs = [
-    { id: 'story', label: 'Our Story' },
-    { id: 'philosophy', label: 'Our Philosophy' },
-    { id: 'team', label: 'Meet The Team' }
-  ];
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const section = entry.target.getAttribute('data-section');
+            setIsVisible(prev => ({...prev, [section]: true}));
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observe each section
+    document.querySelectorAll('[data-section]').forEach(section => {
+      observer.observe(section);
+    });
+
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, []);
 
   const stats = [
     { number: '100+', label: 'Burgers Created' },
@@ -61,108 +69,119 @@ const About = ({ onBack }) => {
     <div className="about-page">
       {/* Back Button */}
       {onBack && (
-        <button onClick={onBack} className={`back-button ${heroLoaded ? 'loaded' : ''}`}>
+        <button 
+          onClick={onBack} 
+          className={`back-button ${heroLoaded ? 'loaded' : ''}`}
+        >
           ← Back to Home
         </button>
       )}
 
       {/* Hero Section */}
-      <section className={`about-hero ${heroLoaded ? 'loaded' : ''}`} 
-               style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${images.restaurant})` }}>
+      <section 
+        className={`about-hero ${isVisible.hero ? 'visible' : ''}`} 
+        style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${images.restaurant})` }}
+        data-section="hero"
+      >
         <div className="hero-content">
-          <h1 className={scrollPosition > 50 ? 'scrolled' : ''}>OUR STORY</h1>
+          <h1>OUR STORY</h1>
           <p>From humble beginnings to burger excellence</p>
         </div>
       </section>
 
-      {/* Navigation Tabs */}
-      <nav className="about-tabs">
-        {tabs.map(tab => (
-          <button
-            key={tab.id}
-            className={`tab-button ${activeTab === tab.id ? 'active' : ''}`}
-            onClick={() => setActiveTab(tab.id)}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </nav>
-
-      {/* Tab Content */}
-      <div className={`tab-content ${animate ? 'fade-in' : ''}`}>
-        {activeTab === 'story' && (
-          <div className="story-section">
+      {/* Story Section */}
+      <section 
+        className="story-section" 
+        data-section="story"
+      >
+        <div className="container">
+          <div className={`story-content ${isVisible.story ? 'visible' : ''}`}>
             <div className="story-text">
-              <h2 className="slide-in">How It All Began</h2>
-              <p className="fade-in-delay-1">Founded in 2005 in a small food truck, our passion for crafting the perfect burger quickly gained a loyal following.</p>
-              <p className="fade-in-delay-2">Our secret? Never compromising on quality, even when it meant working 18-hour days to perfect our recipes.</p>
+              <h2>How It All Began</h2>
+              <p>Founded in 2005 in a small food truck, our passion for crafting the perfect burger quickly gained a loyal following.</p>
+              <p>Our secret? Never compromising on quality, even when it meant working 18-hour days to perfect our recipes.</p>
             </div>
             <div className="story-image">
               <img 
                 src={images.burgerIcon} 
                 alt="Original burger recipe" 
-                className="scale-in"
               />
             </div>
           </div>
-        )}
+        </div>
+      </section>
 
-        {activeTab === 'philosophy' && (
-          <div className="philosophy-section">
+      {/* Philosophy Section */}
+      <section 
+        className="philosophy-section" 
+        data-section="philosophy"
+      >
+        <div className="container">
+          <div className={`philosophy-content ${isVisible.philosophy ? 'visible' : ''}`}>
             <div className="philosophy-image">
               <img 
                 src={images.ingredients} 
                 alt="Fresh ingredients" 
-                className="slide-in-left"
               />
             </div>
             <div className="philosophy-text">
-              <h2 className="slide-in">Our Burger Philosophy</h2>
-              <p className="fade-in-delay-1">We believe a great burger starts with respect for ingredients.</p>
-              <ul className="staggered-list">
-                <li className="staggered-item-1">Source 100% grass-fed beef from local farms</li>
-                <li className="staggered-item-2">Bake buns fresh daily in-house</li>
-                <li className="staggered-item-3">Hand-cut fries to order</li>
-                <li className="staggered-item-4">Create signature sauces from scratch</li>
+              <h2>Our Burger Philosophy</h2>
+              <p>We believe a great burger starts with respect for ingredients.</p>
+              <ul>
+                <li>Source 100% grass-fed beef from local farms</li>
+                <li>Bake buns fresh daily in-house</li>
+                <li>Hand-cut fries to order</li>
+                <li>Create signature sauces from scratch</li>
               </ul>
             </div>
           </div>
-        )}
+        </div>
+      </section>
 
-        {activeTab === 'team' && (
-          <div className="team-section">
-            <h2 className="slide-in">Meet The Burger Masters</h2>
-            <div className="team-grid">
-              {teamMembers.map((member, index) => (
+      {/* Team Section */}
+      <section 
+        className="team-section" 
+        data-section="team"
+      >
+        <div className="container">
+          <h2 className={`${isVisible.team ? 'visible' : ''}`}>Meet The Burger Masters</h2>
+          <div className={`team-grid ${isVisible.team ? 'visible' : ''}`}>
+            {teamMembers.map((member, index) => (
+              <div 
+                key={member.name} 
+                className={`team-card card-${index + 1}`}
+              >
                 <div 
-                  key={member.name} 
-                  className={`team-card card-${index + 1}`}
-                >
-                  <div 
-                    className="team-image" 
-                    style={{ backgroundImage: `url(${member.image})` }}
-                  ></div>
-                  <h3>{member.name}</h3>
-                  <p className="role">{member.role}</p>
-                  <p className="bio">{member.bio}</p>
-                </div>
-              ))}
-            </div>
+                  className="team-image" 
+                  style={{ backgroundImage: `url(${member.image})` }}
+                ></div>
+                <h3>{member.name}</h3>
+                <p className="role">{member.role}</p>
+                <p className="bio">{member.bio}</p>
+              </div>
+            ))}
           </div>
-        )}
-      </div>
+        </div>
+      </section>
 
       {/* Stats Section */}
-      <section className="stats-section">
-        {stats.map((stat, index) => (
-          <div 
-            key={stat.label} 
-            className={`stat-item stat-${index + 1}`}
-          >
-            <div className="stat-number">{stat.number}</div>
-            <div className="stat-label">{stat.label}</div>
+      <section 
+        className="stats-section" 
+        data-section="stats"
+      >
+        <div className="container">
+          <div className={`stats-container ${isVisible.stats ? 'visible' : ''}`}>
+            {stats.map((stat, index) => (
+              <div 
+                key={stat.label} 
+                className={`stat-item stat-${index + 1}`}
+              >
+                <div className="stat-number">{stat.number}</div>
+                <div className="stat-label">{stat.label}</div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </section>
     </div>
   );

@@ -57,6 +57,28 @@ function Hero({ goToAbout, addToCart }) {
 
   return (
     <>
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap');
+          
+          body {
+            font-family: 'Poppins', sans-serif;
+          }
+          
+          h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+          }
+          
+          .nav-links li {
+            font-family: 'Poppins', sans-serif;
+          }
+          
+          .order-btn, .hashtag-marquee {
+            font-family: 'Poppins', sans-serif;
+          }
+        `}
+      </style>
+      
       <section className="hero">
         {/* Background Layers */}
         <div className="bg-gradient"></div>
@@ -69,16 +91,14 @@ function Hero({ goToAbout, addToCart }) {
             <ul className="nav-links">
               <li>Home</li>
               <li onClick={goToAbout}>About</li>
-
               <li className="nav-logo-container">
                 <img
-                  src="https://cdn.pixabay.com/photo/2020/10/24/06/36/burger-5680639_1280.png"
+                  src="https://cdn-icons-png.flaticon.com/512/5787/5787016.png"
                   alt="Burger Logo"
                   className="nav-logo"
                   loading="lazy"
                 />
               </li>
-
               <li>Menu</li>
               <li>Contact</li>
             </ul>
