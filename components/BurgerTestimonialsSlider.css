@@ -1,0 +1,244 @@
+/* Unique burger slider styles - won't conflict with other components */
+.burger-slider-section {
+  padding: 5rem 2rem;
+  background-color: rgb(255, 179, 179);
+  text-align: center;
+  overflow: hidden;
+}
+
+.burger-slider-title {
+  font-size: 2.8rem;
+  color: #e67e22;
+  margin-bottom: 3rem;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  display: inline-block;
+}
+
+.burger-slider-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #e67e22, #d35400);
+  border-radius: 2px;
+}
+
+.burger-slider-container {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.burger-slider-track {
+  display: flex;
+  min-height: 350px;
+  align-items: center;
+  position: relative;
+}
+
+.burger-slider-card {
+  position: absolute;
+  width: 100%;
+  padding: 2.5rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  transform: scale(0.85);
+}
+
+.burger-slider-card-active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 10;
+}
+
+.burger-slider-slide-right {
+  animation: burger-slide-in-right 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.burger-slider-slide-left {
+  animation: burger-slide-in-left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.burger-slider-avatar-wrapper {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  border: 4px solid #f8c291;
+  padding: 4px;
+  position: relative;
+  animation: burger-bounce 8s ease-in-out infinite;
+}
+
+.burger-slider-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.burger-slider-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.burger-slider-rating {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.burger-slider-star {
+  color: #f5d6b3;
+  margin: 0 2px;
+}
+
+.burger-slider-star-active {
+  color: #f39c12;
+}
+
+.burger-slider-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.burger-slider-name {
+  font-weight: 700;
+  color: #e67e22;
+  font-size: 1.2rem;
+  margin-bottom: 0;
+}
+
+.burger-slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  font-size: 1.5rem;
+  color: #e67e22;
+  cursor: pointer;
+  z-index: 20;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.burger-slider-arrow:hover {
+  background: #e67e22;
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.burger-slider-arrow-left {
+  left: -25px;
+}
+
+.burger-slider-arrow-right {
+  right: -25px;
+}
+
+.burger-slider-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 10px;
+}
+
+.burger-slider-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f5d6b3;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.burger-slider-dot-active {
+  background: #e67e22;
+  transform: scale(1.3);
+}
+
+/* Keyframe animations */
+@keyframes burger-slide-in-right {
+  from {
+    transform: translateX(100%) scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes burger-slide-in-left {
+  from {
+    transform: translateX(-100%) scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes burger-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .burger-slider-section {
+    padding: 3rem 1rem;
+  }
+  
+  .burger-slider-title {
+    font-size: 2rem;
+  }
+  
+  .burger-slider-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  .burger-slider-arrow-left {
+    left: -15px;
+  }
+  
+  .burger-slider-arrow-right {
+    right: -15px;
+  }
+  
+  .burger-slider-card {
+    padding: 1.5rem;
+  }
+  
+  .burger-slider-avatar-wrapper {
+    width: 80px;
+    height: 80px;
+  }
+}
